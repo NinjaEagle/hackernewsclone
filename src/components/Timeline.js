@@ -2,6 +2,8 @@ import React from 'react'
 import { Card} from 'react-bootstrap'
 import './css/Timeline.scss'
 import {Link} from 'react-router-dom'
+import { TriangleFill } from 'react-bootstrap-icons';
+
 
 let dummyProjects = [
 	{
@@ -10,7 +12,7 @@ let dummyProjects = [
 		link: 'https://www.cnet.com/',
         upvotes: 115,
         user: "nsm",
-        timestamp: "2 hours",
+        timeStamp: "2 hours",
         comments: 54
     },
     {
@@ -19,7 +21,7 @@ let dummyProjects = [
 		link: 'https://www.foxnews.com/',
         upvotes: 284,
         user: "bookofjoe",
-        timestamp: "53 minutes",
+        timeStamp: "53 minutes",
         comments: 136
     },
     {
@@ -28,7 +30,7 @@ let dummyProjects = [
 		link: 'theHill.com',
         upvotes: 98,
         user: "justinpub",
-        timestamp: "4 hours",
+        timeStamp: "4 hours",
         comments: 40
     },
     {
@@ -37,13 +39,18 @@ let dummyProjects = [
 		link: 'nypost.com',
         upvotes: 115,
         user: "LukeEF",
-        timestamp: "1 day",
+        timeStamp: "1 day",
         comments: 12
 	}
 ];
 
 
 export default class Timeline extends React.Component {
+
+    handleUpvote = (e) => {
+        e.preventDefault();
+    }
+
 	dummyRender() {
         let index = 1;
 		return (
@@ -51,7 +58,16 @@ export default class Timeline extends React.Component {
 				{dummyProjects.map((p) => (
 					<div key={p}>
 						<Card className='posts'>
-                            <Card.Header>{index++}.</Card.Header>
+                            <Card.Header> 
+                                <TriangleFill 
+                                onClick={this.handleUpvote} 
+                                size = {16}
+                                style = {{cursor: 'pointer'}}
+                                
+                                />
+                                &nbsp;
+                                {index++}.
+                            </Card.Header>
 							<Card.Body className='postcards'>
 								<Card.Title>
                                     <Link to={p.link}>{p.title}</Link>

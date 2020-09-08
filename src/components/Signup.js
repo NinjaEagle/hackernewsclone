@@ -8,6 +8,8 @@ export default class SignUp extends React.Component {
         email: "",
         password: "",
         confirmPassword: "",
+
+        noMatch: false,
         redirect: false
     };
 
@@ -15,6 +17,13 @@ export default class SignUp extends React.Component {
     //  link up api calls and input validation
     createAccount = async event => {
       // this.setState({redirect: true}); // for demoing
+
+      event.preventDefault();
+      if (this.state.password !== this.state.confirmPassword) {
+        this.setState({noMatch: true})
+        return;
+      }
+
 
     }
     
@@ -26,6 +35,7 @@ export default class SignUp extends React.Component {
 
         return (
             <div className="SignUp" >
+              {this.state.noMatch === true && <h5>Password and Confirm Password do not match</h5>}
             <Card style = {{ width: '30rem', height: '34rem'}} bg ='dark' text='light'>
               <Card.Body>
                <Card.Title>Sign Up</Card.Title>
