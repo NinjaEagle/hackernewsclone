@@ -4,7 +4,7 @@ import {MyProvider, AppContext} from './context';
 import Navbar from '../components/Navbar'
 import Home from '../components/Home'
 import Login from '../components/Login'
-import Signup from '../components/Signup'
+import SignUp from '../components/Signup';
 
 export default class App extends React.Component {
   render()  {
@@ -18,8 +18,8 @@ export default class App extends React.Component {
               <React.Fragment>
                 <Navbar />
                 <Route path="/" exact component={ props => <Home {...props} {...context} />} />
-                <Route path="/Signup" exact component={ props => <Login {...props} {...context} />} />
-                <Route path="/Login" exact component={ props => <Signup {...props} {...context} />} />
+                <Route path="/Signup" exact component={ props => <SignUp {...props} {...context} />} />
+                <Route path="/Login" exact component={ props => <Login {...props} {...context} />} />
               </React.Fragment>
             );
           }}

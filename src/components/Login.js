@@ -9,6 +9,7 @@ import {
 } from 'react-bootstrap'
 import './css/Login.css'
 
+
 export default class LogIn extends React.Component {
 	state = {
 		email: '',
@@ -21,7 +22,7 @@ export default class LogIn extends React.Component {
 	// link up api calls
 	validateLogin = async (event) => {
 		event.preventDefault()
-		this.setState({redirect: true});
+		// this.setState({redirect: true}); for demoing
 	}
 
 	render() {
