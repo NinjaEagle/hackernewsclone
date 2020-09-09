@@ -1,25 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-const AppContext = React.createContext()
+const AppContext = React.createContext();
 
-<<<<<<< HEAD
-class MyProvider extends React.Component {
-	state = {
-		user: [],
-	}
-
-	updateUser = (param) => {
-		this.setState({ user: param })
-	}
-
-	render() {
-		return (
-			<AppContext.Provider value={{ context: this.state }}>
-				{this.props.children}
-			</AppContext.Provider>
-		)
-	}
-=======
 class MyProvider extends React.Component{
     state = {
 
@@ -57,7 +39,6 @@ class MyProvider extends React.Component{
         </AppContext.Provider>
         );
       }
->>>>>>> davbranch
 }
 
-export { MyProvider, AppContext }
+export {MyProvider, AppContext};
