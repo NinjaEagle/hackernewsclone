@@ -25,8 +25,8 @@ export default class SignUp extends React.Component {
       //   return;
       // }
       event.preventDefault()
-      const response = await backend.post('/createPost', {
-        body: JSON.stringify({ title: "title", description: "desc", link: "link", uid: "uid" }),
+      const response = await backend.post('/createUser', {
+        body: JSON.stringify({ username: this.state.userName, password : this.state.password }),
       });
       console.log(response)
     }
