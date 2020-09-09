@@ -1,16 +1,19 @@
+const { admin, db } = require("../utils/admin");
+
 exports.createPost = (request, response) => {
-    const body = JSON.parse(request.body);
+    const body = JSON.parse(request.body["body"]);
     var title = body["title"];
     var description = body["description"];
     var post_link = body["link"]
     var uid = body["uid"]
     const newPost = {
-        title: request.body.title,
-        description: request.body.description,
-        link: request.body.link,
-        uid: request.body.uid,
+        title: title,
+        description: description,
+        link: post_link,
+        uid: uid,
         createdAt: new Date().toISOString()
     }
+    console.log(newPost)
 
     db
         .collection("/Posts")
