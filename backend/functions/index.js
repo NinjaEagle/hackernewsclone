@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const app = require("express")()
+const cors = require('cors');
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
@@ -11,6 +12,7 @@ const {
     validateUser,
     createUser
 } = require("./API/user")
+app.use(cors())
 
 app.post("/validateUser", validateUser)
 app.post("/createUser", createUser)
