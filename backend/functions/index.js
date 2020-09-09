@@ -12,8 +12,19 @@ const {
     validateUser,
     createUser
 } = require("./API/user")
+
+const {
+    createPost,
+    deletePost,
+    editPost
+} = require("./API/post")
+
 app.use(cors())
 
 app.post("/validateUser", validateUser)
 app.post("/createUser", createUser)
+app.post("/createPost", createPost)
+app.delete("/deletePost", deletePost)
+app.put("/editPost", editPost)
+
 exports.api = functions.https.onRequest(app);
