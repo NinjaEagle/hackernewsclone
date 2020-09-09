@@ -18,7 +18,7 @@ export default class Home extends React.Component {
 			<Container>
 				<Row>
 					<Col>
-						<div class='posts-list'>
+						<div class='posts-list' style = {{paddingTop: "20px"}}>
 							<Timeline />
 						</div>
 					</Col>
