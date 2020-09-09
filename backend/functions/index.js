@@ -8,8 +8,10 @@ const app = require("express")()
 //   response.send("Hello from Firebase!");
 // });
 const {
-    validateUser
+    validateUser,
+    createUser
 } = require("./API/user")
 
 app.post("/validateUser", validateUser)
+app.post("/createUser", createUser)
 exports.api = functions.https.onRequest(app);
