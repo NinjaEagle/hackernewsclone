@@ -70,7 +70,7 @@ export default class Timeline extends React.Component {
                             </Card.Header>
 							<Card.Body className='postcards'>
 								<Card.Title>
-                                    <Link to={p.link}>{p.title}</Link>
+                                <a href={p.link}>{p.title}</a>
                                 </Card.Title>
 								<Card.Text>
                                     ({p.link})
