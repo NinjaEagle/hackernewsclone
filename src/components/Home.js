@@ -18,14 +18,14 @@ export default class Home extends React.Component {
 			<Container>
 				<Row>
 					<Col>
-						<div class='posts-list' style = {{paddingTop: "20px"}}>
+						<div className='posts-list' style = {{paddingTop: "20px"}}>
 							<Timeline />
 						</div>
 					</Col>
 				</Row>
 			</Container>
 
-			<div class='downArrow bounce'>
+			<div className='downArrow bounce'>
 				<img
 					width='40'
 					height='40'
