@@ -61,7 +61,9 @@ exports.createUser = (request, response) =>{
         } else {
             var user = {
                 username: username,
-                password: hash
+                password: hash,
+                posts: [],
+                upvotes: []
             }
     const collection_ref = db.collection("/Users");
     var checked;
