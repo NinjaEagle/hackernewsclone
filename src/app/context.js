@@ -1,25 +1,23 @@
-import React from 'react';
+import React from 'react'
 
-const AppContext = React.createContext();
+const AppContext = React.createContext()
 
-class MyProvider extends React.Component{
-    state = {
-        user: []
-    };
+class MyProvider extends React.Component {
+	state = {
+		user: [],
+	}
 
-    updateUser = (param) => {
-        this.setState({user: param});
-    }
+	updateUser = (param) => {
+		this.setState({ user: param })
+	}
 
-    render() {
-        return (
-        <AppContext.Provider value={{context: this.state}}>
-          {this.props.children}
-        </AppContext.Provider>
-        );
-      }
+	render() {
+		return (
+			<AppContext.Provider value={{ context: this.state }}>
+				{this.props.children}
+			</AppContext.Provider>
+		)
+	}
 }
 
-export {MyProvider, AppContext};
-
-
+export { MyProvider, AppContext }
