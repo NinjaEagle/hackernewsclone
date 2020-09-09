@@ -1,5 +1,5 @@
 const functions = require('firebase-functions');
-const express = require("express")
+const app = require("express")()
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
@@ -7,3 +7,9 @@ const express = require("express")
 //   functions.logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });
+const {
+    validateUser
+} = require("./API/user")
+
+app.post("/validateUser", validateUser)
+exports.api = functions.https.onRequest(app);

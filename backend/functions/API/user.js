@@ -1,4 +1,3 @@
-const { admin, db } = require("../utils/admin");
 const firebase = require("firebase");
 
 exports.validateUser = (request, response) => {
