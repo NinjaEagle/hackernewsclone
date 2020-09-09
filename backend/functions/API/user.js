@@ -5,7 +5,7 @@ const { admin, db } = require("../utils/admin");
 const { query } = require("express");
 
 exports.validateUser = (request, response) => {
-    const body = JSON.parse(request.body);
+    const body = JSON.parse(request.body["body"]);
     var username = body["username"];
     var password = body["password"];
     var uid = body["uid"];
@@ -42,13 +42,21 @@ exports.validateUser = (request, response) => {
 }
 
 exports.createUser = (request, response) =>{
-    const body = JSON.parse(request.body);
+    const body = JSON.parse(request.body["body"]);
     var username = body["username"];
     var password = body["password"];
-    bcrypt.hash(password, saltRounds, (err, hash) => {
+        console.info(username);
+        console.info(password);
+    bcrypt.hash(password, 10, (err, hash) => {
+        
         if (err) {
+            console.error(err)
             return response.status(500).json({
-                error: err
+                error: err,
+                description: "Hashing failed",
+                username: username,
+                password: password,
+                hash: hash
             })
         } else {
             var user = {
