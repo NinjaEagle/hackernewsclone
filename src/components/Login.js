@@ -8,11 +8,12 @@ import {
 	FormLabel,
 } from 'react-bootstrap'
 import './css/Login.css'
+import backend from '../api/backend'
 
 
 export default class LogIn extends React.Component {
 	state = {
-		email: '',
+		userName: '',
 		password: '',
 		response: '',
 		redirect: false,
@@ -22,7 +23,10 @@ export default class LogIn extends React.Component {
 	// link up api calls
 	validateLogin = async (event) => {
 		event.preventDefault()
-		// this.setState({redirect: true}); for demoing
+        const response = await backend.post('/validateUser', {
+            body: JSON.stringify({ userName: this.state.userName.toLowerCase(), password : this.state.password }),
+		});
+		console.log(response)
 	}
 
 	render() {
@@ -36,14 +40,14 @@ export default class LogIn extends React.Component {
 					<Card.Body>
 						<Card.Title>Log in</Card.Title>
 						<form onSubmit={this.validateLogin}>
-							<FormGroup controlId='email'>
-								<FormLabel style={{ color: 'white' }}>Email</FormLabel>
+							<FormGroup controlId='userName'>
+								<FormLabel style={{ color: 'white' }}>Username</FormLabel>
 								<FormControl
 									autoFocus
-									type='email'
-									value={this.state.email}
-									onChange={(e) => this.setState({ email: e.target.value })}
-									placeholder='Enter Email'
+									type='userName'
+									value={this.state.userName}
+									onChange={(e) => this.setState({ userName: e.target.value })}
+									placeholder='Enter your username'
 								/>
 							</FormGroup>
 							<FormGroup controlId='password'>

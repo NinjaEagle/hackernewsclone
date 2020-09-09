@@ -2,10 +2,11 @@ import React from 'react';
 import { Redirect } from 'react-router';
 import { Button, Card, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import './css/SignUp.css'
+import backend from '../api/backend'
 
 export default class SignUp extends React.Component {
     state = {
-        email: "",
+        userName: "",
         password: "",
         confirmPassword: "",
 
@@ -19,12 +20,15 @@ export default class SignUp extends React.Component {
       // this.setState({redirect: true}); // for demoing
 
       event.preventDefault();
-      if (this.state.password !== this.state.confirmPassword) {
-        this.setState({noMatch: true})
-        return;
-      }
-
-
+      // if (this.state.password !== this.state.confirmPassword) {
+      //   this.setState({noMatch: true})
+      //   return;
+      // }
+      event.preventDefault()
+      const response = await backend.post('/createUser', {
+        body: JSON.stringify({ userName: this.state.userName, password : this.state.password }),
+      });
+      console.log(response)
     }
     
 
@@ -40,25 +44,15 @@ export default class SignUp extends React.Component {
               <Card.Body>
                <Card.Title>Sign Up</Card.Title>
               <form onSubmit={this.createAccount}>
-              <FormGroup controlId="name">
-                  <FormLabel style = {{color: 'white'}}>Name</FormLabel>
-                  <FormControl
-                    autoFocus
-                    type="name"
-                    value={this.state.name}
-                    onChange={e => this.setState({name: e.target.value})}
-                    placeholder="Enter your name"
-                  />
-                </FormGroup>
 
-                <FormGroup controlId="email">
-                  <FormLabel style = {{color: 'white'}}>Email</FormLabel>
+                <FormGroup controlId="userName">
+                  <FormLabel style = {{color: 'white'}}>Username</FormLabel>
                   <FormControl
                     autoFocus
-                    type="email"
-                    value={this.state.email}
-                    onChange={e => this.setState({email: e.target.value})}
-                    placeholder="Enter Email"
+                    type="userName"
+                    value={this.state.userName}
+                    onChange={e => this.setState({userName: e.target.value})}
+                    placeholder="Enter a username"
                   />
                 </FormGroup>
 

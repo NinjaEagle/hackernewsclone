@@ -58,7 +58,7 @@ export default class Timeline extends React.Component {
 		return (
 			<React.Fragment>
 				{dummyProjects.map((p) => (
-					<div key={p}>
+					<div key={p.postID}>
 						<Card className='posts'>
 							<Card.Header>
 								<TriangleFill
