@@ -12,12 +12,6 @@ code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-nav {
-	background-color: #fce21b;
-	color: black;
-	font-family: 'Cornerstone';
-}
-
 h1,
 h2,
 h3 {
@@ -30,9 +24,3 @@ h3 {
 	margin-top: 50px;
 }
 /* home page styling */
-
-.modal-body {
-	align-self: center;
-}
-.modal-title {
-}

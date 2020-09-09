@@ -1,13 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import '../css/navbar.css'
+import './css/navbar.css'
 
 export default function Navbar(props) {
 	return (
 		<div className='navBar-comp'>
 			<div className='tabBox-main'>
 				<Link className='Logo' to='/'>
-					<h1 className='TabLogo' label='Logo'>
+					<h1 className='TabLogo' label='Timeline'>
 						hackernews
 					</h1>
 				</Link>
@@ -21,13 +21,13 @@ export default function Navbar(props) {
 							</h3>
 						</Link>
 					</div>
-					<div className='tabBox'>
+					{/* <div className='tabBox'>
 						<Link to='/Timeline' state={'Timeline'}>
 							<h3 className='TabLabel' label='Timeline'>
 								Timeline
 							</h3>
 						</Link>
-					</div>
+					</div> */}
 					{/* <div className='tabBox'>
 						<Link to='/Profile' state={'Profile'}>
 							<h3 className='TabLabel' label='Profile'>
