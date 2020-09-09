@@ -13,16 +13,16 @@ const {
     createUser
 } = require("./API/user")
 
+app.use(cors())
+app.post("/validateUser", validateUser)
+app.post("/createUser", createUser)
+
 const {
     createPost,
     deletePost,
     editPost
 } = require("./API/post")
 
-app.use(cors())
-
-app.post("/validateUser", validateUser)
-app.post("/createUser", createUser)
 app.post("/createPost", createPost)
 app.delete("/deletePost", deletePost)
 app.put("/editPost", editPost)
