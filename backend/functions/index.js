@@ -20,11 +20,12 @@ app.post("/createUser", createUser)
 const {
     createPost,
     deletePost,
-    editPost
+    editPost,
+    addCommentToPost
 } = require("./API/post")
 
 app.post("/createPost", createPost)
-app.delete("/deletePost", deletePost)
-app.put("/editPost", editPost)
-
+app.delete("/deletePost/:post_id", deletePost)
+app.put("/editPost/:post_id", editPost)
+app.post("/addCommentToPost",addCommentToPost)
 exports.api = functions.https.onRequest(app);
