@@ -1,0 +1,14 @@
+.form {
+  margin: 20px 50px 10px 50px;
+  width: 50%;
+
+  display: flex;
+  flex-direction: column;
+}
+.combutton {
+  margin-top: 10px;
+}
+
+.form-control {
+  height: 150px;
+}
