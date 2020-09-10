@@ -24,7 +24,7 @@ export default class LogIn extends React.Component {
 		event.preventDefault()
 		const response = await backend.post('/validateUser', {
 			body: JSON.stringify({
-				userName: this.state.userName.toLowerCase(),
+				username: this.state.userName.toLowerCase(),
 				password: this.state.password,
 			}),
 		})

@@ -1,4 +1,5 @@
 import React from 'react'
+import Comment from './Comment'
 import { Container, Col, Row } from 'react-bootstrap'
 import './css/Home.scss'
 import Timeline from './Timeline'
@@ -10,18 +11,17 @@ export default class Home extends React.Component {
 
 	render() {
 		return (
-			<div>
-				<div className='blank'>
-					<Container>
-						<Row>
-							<Col>
-								<div className='posts-list' style={{ paddingTop: '20px' }}>
-									<Timeline />
-								</div>
-							</Col>
-						</Row>
-					</Container>
-				</div>
+			<div className='blank'>
+				<Comment />
+				<Container>
+					<Row>
+						<Col>
+							<div className='posts-list' style={{ paddingTop: '20px' }}>
+								<Timeline />
+							</div>
+						</Col>
+					</Row>
+				</Container>
 
 				<div className='downArrow bounce'>
 					<img
