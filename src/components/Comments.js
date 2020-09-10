@@ -1,6 +1,7 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
 import { TriangleFill } from 'react-bootstrap-icons'
+import './css/Comment.css'
 
 function Comments(props) {
 	let p = props.posts
@@ -10,7 +11,15 @@ function Comments(props) {
 	//   let post = this.context
 	// }
 	return (
-		<div>Comments Page</div>
+		<div>
+			<div>Comments Page</div>
+			<div>
+				<form className='commentForm'>
+					<input type='text' placeholder='Say something...' />
+					<input type='submit' value='add comment' />
+				</form>
+			</div>
+		</div>
 		// <div key={p.postID}>
 		// 	Comments Page
 		// 	<Card className='comments'>
