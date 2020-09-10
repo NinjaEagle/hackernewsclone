@@ -18,7 +18,7 @@ const {
 app.use(cors())
 app.post("/validateUser", validateUser)
 app.post("/createUser", createUser)
-app.post("/getPostList", getPostList)
+app.get("/getPostList", getPostList)
 app.post("/getCommentList", getCommentList)
 
 

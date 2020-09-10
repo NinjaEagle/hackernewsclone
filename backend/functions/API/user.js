@@ -124,8 +124,7 @@ exports.getCommentList = async (request, response) => {
 
 
 exports.getPostList = (request, response) => {
-    const body = JSON.parse(request.body["body"]);
-    let uid = body["uid"];
+    console.log("here")
     let posts = db.collection("/Posts");
     let all_posts = [];
     posts
