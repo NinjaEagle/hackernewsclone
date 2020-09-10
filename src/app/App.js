@@ -38,6 +38,11 @@ export default class App extends React.Component {
 											exact
 											component={(props) => <Comments {...props} {...context} />}
 										/>
+										<Route
+											path="/Comments/:id"
+											exact
+											component={(props) => <Comments {...props} {...context} />}
+										/>
 									</React.Fragment>
 								)
 							}}
