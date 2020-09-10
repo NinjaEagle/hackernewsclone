@@ -1,14 +1,16 @@
 .form {
-  margin: 20px 50px 10px 50px;
-  width: 50%;
-
-  display: flex;
-  flex-direction: column;
+	margin: 20px 50px 10px 50px;
+	width: 50%;
 }
 .combutton {
-  margin-top: 10px;
+	margin-top: 10px;
 }
 
 .form-control {
-  height: 150px;
+	height: 150px;
+}
+
+.comments {
+	display: flex;
+	flex-direction: column;
 }

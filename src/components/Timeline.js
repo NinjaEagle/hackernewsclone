@@ -3,6 +3,7 @@ import { Card } from 'react-bootstrap'
 import './css/Timeline.scss'
 import { Link } from 'react-router-dom'
 import { TriangleFill } from 'react-bootstrap-icons'
+import SubmitPost from './SubmitPost'
 
 let dummyProjects = [
 	{
@@ -100,7 +101,8 @@ export default class Timeline extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div className='timeline'>
+				<SubmitPost />
 				{this.dummyRender()}
 				{this.props.context.posts}
 			</div>
