@@ -99,6 +99,11 @@ export default class Timeline extends React.Component {
 	}
 
 	render() {
-		return <div>{this.dummyRender()}</div>
+		return (
+			<div>
+				{this.dummyRender()}
+				{this.props.context.posts}
+			</div>
+		)
 	}
 }
