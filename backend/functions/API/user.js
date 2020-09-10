@@ -22,7 +22,8 @@ exports.validateUser = (request, response) => {
                     } else {
                         if (same) {
                             return response.status(200).json({
-                                success: true
+                                success: true,
+                                user_id: element.id
                             })
                         } else {
                             return response.status(200).json({
@@ -42,7 +43,7 @@ exports.validateUser = (request, response) => {
 }
 
 exports.createUser = (request, response) =>{
-    const body = request.body["body"];
+    const body = JSON.parse(request.body["body"]);
     var username = body["username"];
     var password = body["password"];
         console.info(username);
@@ -78,7 +79,7 @@ exports.createUser = (request, response) =>{
                  .then((doc) => {
                     return response.status(200).json({
                         success: "true",
-                        uid: db_ref.id
+                        user_id: db_ref.id
                     })
                 })
     
