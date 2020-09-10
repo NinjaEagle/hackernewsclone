@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar'
 import Timeline from '../components/Timeline'
 import Login from '../components/Login'
 import SignUp from '../components/Signup'
+import Comments from '../components/Comments'
 
 export default class App extends React.Component {
 	render() {
@@ -31,6 +32,11 @@ export default class App extends React.Component {
 											path='/Login'
 											exact
 											component={(props) => <Login {...props} {...context} />}
+										/>
+										<Route
+											path='/Comments'
+											exact
+											component={(props) => <Comments {...props} {...context} />}
 										/>
 									</React.Fragment>
 								)

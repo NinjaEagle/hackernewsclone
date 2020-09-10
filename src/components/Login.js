@@ -1,5 +1,5 @@
 import React from 'react'
-import { Redirect } from 'react-router';
+import { Redirect } from 'react-router'
 import {
 	Button,
 	Card,
@@ -9,7 +9,6 @@ import {
 } from 'react-bootstrap'
 import './css/Login.css'
 import backend from '../api/backend'
-
 
 export default class LogIn extends React.Component {
 	state = {
@@ -23,17 +22,20 @@ export default class LogIn extends React.Component {
 	// link up api calls
 	validateLogin = async (event) => {
 		event.preventDefault()
-        const response = await backend.post('/validateUser', {
-            body: JSON.stringify({ userName: this.state.userName.toLowerCase(), password : this.state.password }),
-		});
+		const response = await backend.post('/validateUser', {
+			body: JSON.stringify({
+				userName: this.state.userName.toLowerCase(),
+				password: this.state.password,
+			}),
+		})
 		console.log(response)
 	}
 
 	render() {
 		if (this.state.redirect) {
-			return <Redirect push to="/Profile" />;
-		 }
-		 
+			return <Redirect push to='/Profile' />
+		}
+
 		return (
 			<div className='LogIn'>
 				<Card style={{ width: '30rem', height: '32rem' }} bg='dark' text='light'>

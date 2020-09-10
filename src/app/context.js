@@ -16,7 +16,9 @@ class MyProvider extends React.Component {
 	}
 
 	// function defintions down here
-
+	seeComments(posts) {
+		this.setState({ posts })
+	}
 	updateUser(user) {
 		this.setState({ user })
 	}
