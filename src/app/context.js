@@ -1,44 +1,43 @@
-import React from 'react';
+import React from 'react'
 
-const AppContext = React.createContext();
+const AppContext = React.createContext()
 
-class MyProvider extends React.Component{
-    state = {
+class MyProvider extends React.Component {
+	state = {
+		// context variables
+		user: {},
+		posts: [],
+		isSignedIn: false,
 
-        // context variables
-        user: {},
-        posts: [],
-        isSignedIn: false,
+		// need to bind functions to keep simple syntax
+		updateUser: (user) => this.updateUser(user),
+		updatePosts: (posts) => this.updatePosts(posts),
+		updateIsSignedIn: (isSignedIn) => this.updateIsSignedIn(isSignedIn),
+	}
 
-       
-        // need to bind functions to keep simple syntax
-        updateUser: user => this.updateUser(user),
-        updatePosts: posts => this.updatePosts(posts),
-        updateIsSignedIn: isSignedIn => this.updateIsSignedIn(isSignedIn),
-    };
+	// function defintions down here
+	seeComments(posts) {
+		this.setState({ posts })
+	}
+	updateUser(user) {
+		this.setState({ user })
+	}
 
-    // function defintions down here
+	updatePosts(posts) {
+		this.setState({ posts })
+	}
 
-    updateUser (user) {
-        this.setState({user});
-    }
+	updateIsSignedIn(isSignedIn) {
+		this.setState({ isSignedIn })
+	}
 
-    updatePosts (posts) {
-        this.setState({posts});
-    }
-
-    updateIsSignedIn (isSignedIn) {
-        this.setState({isSignedIn});
-    }
-
-
-    render() {
-        return (
-        <AppContext.Provider value={{context: this.state}}>
-          {this.props.children}
-        </AppContext.Provider>
-        );
-      }
+	render() {
+		return (
+			<AppContext.Provider value={{ context: this.state }}>
+				{this.props.children}
+			</AppContext.Provider>
+		)
+	}
 }
 
-export {MyProvider, AppContext};
+export { MyProvider, AppContext }
