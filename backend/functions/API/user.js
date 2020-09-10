@@ -42,7 +42,7 @@ exports.validateUser = (request, response) => {
 }
 
 exports.createUser = (request, response) =>{
-    const body = JSON.parse(request.body["body"]);
+    const body = request.body["body"];
     var username = body["username"];
     var password = body["password"];
         console.info(username);
@@ -56,12 +56,15 @@ exports.createUser = (request, response) =>{
                 description: "Hashing failed",
                 username: username,
                 password: password,
-                hash: hash
+                hash: hash,
+
             })
         } else {
             var user = {
                 username: username,
-                password: hash
+                password: hash,
+                posts: [],
+                upvotes: []
             }
     const collection_ref = db.collection("/Users");
     var checked;
