@@ -14,11 +14,23 @@ const {
     getPostList,
     getCommentList
 } = require("./API/user")
-app.use(cors())
 
+app.use(cors())
 app.post("/validateUser", validateUser)
 app.post("/createUser", createUser)
 app.post("/getPostList", getPostList)
 app.post("/getCommentList", getCommentList)
 
+
+const {
+    createPost,
+    deletePost,
+    editPost,
+    addCommentToPost
+} = require("./API/post")
+
+app.post("/createPost", createPost)
+app.delete("/deletePost/:post_id", deletePost)
+app.put("/editPost/:post_id", editPost)
+app.post("/addCommentToPost",addCommentToPost)
 exports.api = functions.https.onRequest(app);
