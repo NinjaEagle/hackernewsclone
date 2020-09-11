@@ -22,7 +22,13 @@ exports.createPost = (request, response) => {
         .then((doc) => {
             const responsePost = newPost;
             responsePost.post_id = doc.id; 
+<<<<<<< HEAD
             // add the post to post array of user
+=======
+
+
+            // TODO: add the post to post array of user
+>>>>>>> c744055924ac6e9a0d1ce60fe7085afa06c68513
             db 
                 .collection("/Users")
                 .doc(uid)

@@ -2,7 +2,7 @@ const firebase = require("firebase");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const { admin, db } = require("../utils/admin");
-const { query } = require("express");
+const { query, response } = require("express");
 
 exports.validateUser = (request, response) => {
     const body = JSON.parse(request.body["body"]);
@@ -22,11 +22,12 @@ exports.validateUser = (request, response) => {
                     } else {
                         if (same) {
                             return response.status(200).json({
-                                success: "true"
+                                success: true,
+                                user_id: element.id
                             })
                         } else {
                             return response.status(200).json({
-                                success: "false"
+                                success: false
                             })
                         }
                     }
@@ -41,8 +42,30 @@ exports.validateUser = (request, response) => {
     
 }
 
+exports.getUserProfile = (request, response) => {
+    const body = JSON.parse(request.body["body"]);
+    var uid = body["user_id"];
+    db
+    .collection("/Users")
+    .doc(uid)
+    .get()
+    .then((doc) => {
+        if (!doc.exists) {
+            response.status(200).json({
+                error: "User not found"
+            })
+        }
+        var user_data = doc.data();
+        response.status(200).json({
+            user: user_data
+        })
+
+    })
+
+}
+
 exports.createUser = (request, response) =>{
-    const body = request.body["body"];
+    const body = JSON.parse(request.body["body"]);
     var username = body["username"];
     var password = body["password"];
         console.info(username);
@@ -78,12 +101,12 @@ exports.createUser = (request, response) =>{
                  .then((doc) => {
                     return response.status(200).json({
                         success: "true",
-                        uid: db_ref.id
+                        user_id: db_ref.id
                     })
                 })
     
         } else {
-            return response.status(500).json({
+            return response.status(200).json({
                 error: "Duplicate User"
             })
         }
@@ -92,4 +115,49 @@ exports.createUser = (request, response) =>{
     
         }
     })
+}
+
+
+
+
+exports.getCommentList = (request, response) => {
+    // console.log()
+    // console.log(request)
+    // const body = JSON.parse(request.body["body"]);
+    let post_id = request.params.post_id;
+    let posts = db.collection("/Posts").doc(post_id).collection("/comments");
+    let all_comments = [];
+    // const data = 
+    posts
+    .get()
+    .then((doc) => {
+        doc.forEach((comment) => {
+            let comment_data = comment.data()
+            comment_data.comment_id = comment.id;     
+            all_comments.push(comment_data)
+        })
+        return response.json({
+            comments: all_comments
+        })
+    })
+}
+
+
+exports.getPostList = (request, response) => {
+    console.log("here")
+    let posts = db.collection("/Posts");
+    let all_posts = [];
+    posts
+    .get()
+    .then((doc) => {
+        doc.forEach((post) => {
+            let post_data = post.data();
+            post_data.post_id = post.id;
+            all_posts.push(post_data);
+        })
+        return response.status(200).json({
+            posts: all_posts
+        })
+    })
+
 }
