@@ -95,31 +95,28 @@ exports.createUser = (request, response) =>{
     })
 }
 
-exports.getCommentList = async (request, response) => {
-    const body = JSON.parse(request.body["body"]);
-    let posts = db.collection("/Posts");
+
+
+
+exports.getCommentList = (request, response) => {
+    // console.log()
+    // console.log(request)
+    // const body = JSON.parse(request.body["body"]);
+    let post_id = request.params.post_id;
+    let posts = db.collection("/Posts").doc(post_id).collection("/comments");
     let all_comments = [];
     // const data = 
-    await posts
+    posts
     .get()
     .then((doc) => {
-        doc.forEach((post) => {
-            db
-            .collection(`/Posts/${post.id}/comments`)
-            .get()
-            .then((doc) => {
-                doc.forEach((comment) => {
-                    let comment_data = comment.data();
-                    comment_data.id = comment.id;
-                    all_comments.push(comment_data)
-                    // console.log(comment_data)
-                    // console.log(all_comments)
-                })
-            })
+        doc.forEach((comment) => {
+            let comment_data = comment.data()
+            comment_data.comment_id = comment.id;     
+            all_comments.push(comment_data)
         })
-        console.log(all_comments);
-
-        return all_comments;
+        return response.json({
+            comments: all_comments
+        })
     })
 }
 

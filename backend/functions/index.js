@@ -19,7 +19,7 @@ app.use(cors())
 app.post('/validateUser', validateUser)
 app.post('/createUser', createUser)
 app.get('/getPostList', getPostList)
-app.post('/getCommentList', getCommentList)
+app.get('/getCommentList/post/:post_id', getCommentList)
 
 const {
 	createPost,
