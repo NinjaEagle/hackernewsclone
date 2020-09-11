@@ -155,7 +155,7 @@ exports.upvotePost = ( request, response ) => {
             if (!doc.exists) {
                 return response.status(404).json({ error: 'Post not found' })
             }
-            // TODO: edit the upvote for the username
+            // edit the upvote for the username
             document.update({
                 upvotes: admin.firestore.FieldValue.increment(1)
             })
@@ -190,7 +190,6 @@ exports.upvoteComment = ( request, response ) => {
         if (!doc.exists) {
             return response.status(404).json({ error: 'Post not found' })
         }
-        // TODO: edit the upvote for the username
         document.update({
             upvotes: admin.firestore.FieldValue.increment(1)
         });
