@@ -4,7 +4,7 @@ import './css/Comment.css'
 
 export default class Comments extends Component {
 	state = {
-		text: 'Hi',
+		text: [],
 		user: 'Kevin',
 		timeStamp: '',
 	}
@@ -19,19 +19,33 @@ export default class Comments extends Component {
 			console.log(props.postID)
 		}
 	}
+	handleChange = (e) => {
+		console.log(e.target)
+		this.setState({ [e.target.name]: e.target.value })
+	}
+
 	handleSubmit = (e) => {
 		e.preventDefault()
-		console.log(e.target.value)
+
+		this.props.newComment(this.props.postID)
 	}
 
 	render() {
 		console.log(this.props.context.isSignedIn)
+		console.log(this.state)
 		return (
 			<div className='comments'>
 				{/* <button onClick={this.clickBttn}>Click me</button> */}
 				<div className='boxes'>
 					<form onSubmit={this.handleSubmit} className='commentForm'>
-						<input className='textbox' type='text' placeholder='Say something...' />
+						<input
+							onChange={this.handleChange}
+							className='textbox'
+							required
+							type='text'
+							name='text'
+							placeholder='Say something...'
+						/>
 						<br />
 						<input type='submit' value='add comment' />
 					</form>
@@ -46,7 +60,6 @@ export default class Comments extends Component {
 						{this.state.user} {this.state.timestamp} ago [-]
 					</p>
 				</div>
-				<p>{this.state.text}</p>
 			</div>
 		)
 	}

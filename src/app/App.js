@@ -6,6 +6,7 @@ import Timeline from '../components/Timeline'
 import Login from '../components/Login'
 import SignUp from '../components/Signup'
 import Comments from '../components/Comments'
+import SubmitPost from '../components/SubmitPost'
 
 export default class App extends React.Component {
 	render() {
@@ -17,7 +18,7 @@ export default class App extends React.Component {
 							{(context) => {
 								return (
 									<React.Fragment>
-										<Navbar />
+										<Navbar {...context} />
 										<Route
 											path='/'
 											exact
@@ -34,12 +35,17 @@ export default class App extends React.Component {
 											component={(props) => <Login {...props} {...context} />}
 										/>
 										<Route
+											path='/SubmitPost'
+											exact
+											component={(props) => <SubmitPost {...context} />}
+										/>
+										<Route
 											path='/Comments'
 											exact
 											component={(props) => <Comments {...props} {...context} />}
 										/>
 										<Route
-											path="/Comments/:id"
+											path='/Comments/:id'
 											exact
 											component={(props) => <Comments {...props} {...context} />}
 										/>

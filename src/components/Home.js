@@ -1,5 +1,4 @@
 import React from 'react'
-import Comment from './Comment'
 import { Container, Col, Row } from 'react-bootstrap'
 import './css/Home.scss'
 import Timeline from './Timeline'
@@ -12,7 +11,6 @@ export default class Home extends React.Component {
 	render() {
 		return (
 			<div className='blank'>
-				<Comment />
 				<Container>
 					<Row>
 						<Col>

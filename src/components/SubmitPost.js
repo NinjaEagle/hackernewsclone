@@ -1,11 +1,19 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 
-export default class SubmitPost extends Component {
+class SubmitPost extends Component {
+	handleSubmit = () => {
+		// if (!this.props.context.isSignedIn) {
+		// 	return <Redirect push to='/Login' />
+		// }
+	}
 	render() {
+		console.log(this.props.context)
 		return (
 			<div>
-				<button>Submit a new Post </button>
+				<button onClick={this.handleSubmit}>Submit a new Post </button>
 			</div>
 		)
 	}
 }
+export default SubmitPost

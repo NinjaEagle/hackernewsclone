@@ -1,8 +1,6 @@
 import React from 'react'
-import { Card } from 'react-bootstrap'
 import './css/Timeline.scss'
 import { Link } from 'react-router-dom'
-import { TriangleFill } from 'react-bootstrap-icons'
 import SubmitPost from './SubmitPost'
 
 import Post from './Post'
@@ -88,7 +86,6 @@ export default class Timeline extends React.Component {
 			<div className='timeline'>
 				<SubmitPost />
 				{this.dummyRender()}
-				{/* {this.props.context.posts} */}
 			</div>
 		)
 	}
