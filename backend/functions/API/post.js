@@ -48,7 +48,6 @@ exports.deletePost = (request, response) => {
                 return response.status(404).json({ error: 'Post not found' })
             }
             var uid = doc.data().uid;
-            // TODO: delete the post to post array of user
             db 
                 .collection("/Users")
                 .doc(uid)
