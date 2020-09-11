@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Card } from 'react-bootstrap'
 import { TriangleFill } from 'react-bootstrap-icons'
 import './css/Comment.css'
-import { AppContext } from '../app/context.js'
+import Post from './Post'
 
 export default class Comments extends Component {
 	state = {
@@ -14,8 +14,8 @@ export default class Comments extends Component {
 		this.props.context.updatePosts('Hi')
 		console.log(this.props.context.posts)
 	}
+
 	render() {
-		console.log(this.props.context.isSignedIn)
 		return (
 			<div>
 				<button onClick={this.clickBttn}>Click me</button>
@@ -29,6 +29,7 @@ export default class Comments extends Component {
 					style={{ cursor: 'pointer' }}
 				/>
 				<p>Hi {this.state.user}</p>
+				{this.props.match.params.id}
 			</div>
 		)
 	}

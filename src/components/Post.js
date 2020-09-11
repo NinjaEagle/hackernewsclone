@@ -21,10 +21,13 @@ import { TriangleFill } from 'react-bootstrap-icons'
 export default class Post extends Component {
 
 	handleUpvote = (e) => {
-		e.preventDefault()
+		
 	}
 	
 	render() {
+		// const {isSignedIn, text} = this.props.context;
+		// console.log(isSignedIn);
+		// console.log(text);
 		return (
 		<React.Fragment>
 		<Card className='posts'>
@@ -43,7 +46,7 @@ export default class Post extends Component {
 				<Card.Text>({this.props.link})</Card.Text>
 			</Card.Body>
 			<Card.Footer>
-				{this.props.upvotes} points by {this.props.user} {this.props.timeStamp} ago |{' '}
+				{this.props.upvotes} points by {this.props.user}posted on {this.props.timeStamp} |{' '}
 				<Link to={'/Comments/' + this.props.postID} post={this.props.postID}>
 					{this.props.comments} comments{' '}
 				</Link>

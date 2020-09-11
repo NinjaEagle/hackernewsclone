@@ -1,81 +1,84 @@
 import React from 'react'
-import { Card } from 'react-bootstrap'
 import './css/Timeline.scss'
-import { Link } from 'react-router-dom'
-import { TriangleFill } from 'react-bootstrap-icons'
-
 import Post from './Post'
+import {Button} from 'react-bootstrap'
+import {Redirect} from 'react-router-dom'
+import backend from '../api/backend'
 
-let dummyProjects = [
-	{
-		postID: 1323,
-		title: 'Fires ravage Northern california',
-		link: 'https://www.cnet.com/',
-		upvotes: 115,
-		user: 'nsm',
-		timeStamp: '2 hours',
-		comments: 54,
-	},
-	{
-		postID: 635,
-		title: 'FTC investigates TurboTax',
-		link: 'https://www.foxnews.com/',
-		upvotes: 284,
-		user: 'bookofjoe',
-		timeStamp: '53 minutes',
-		comments: 136,
-	},
-	{
-		postID: 32326,
-		title: "Disney hit with backlash over 'Mulan' credits ",
-		link: 'theHill.com',
-		upvotes: 98,
-		user: 'justinpub',
-		timeStamp: '4 hours',
-		comments: 40,
-	},
-	{
-		postID: 3132,
-		title: 'Denver under winter storm watch',
-		link:
-			'https://www.msn.com/en-us/weather/topstories/denver-is-under-a-winter-storm-watch-two-days-after-the-city-hit-101-degrees/ar-BB18NKui',
-		upvotes: 115,
-		user: 'LukeEF',
-		timeStamp: '1 day',
-		comments: 12,
-	},
-]
 
 export default class Timeline extends React.Component {
 	state = {
 		index: 0,
+		text: "",
+		isSignedIn: false,
+		dummyProj: this.props.context.posts,
+		createPost: false,
 	}
 	handleUpvote = (e) => {
 		e.preventDefault()
 	}
 	handleLink = (link) => {
 		console.log(link)
-		// window.open(link)
 	}
 
-	dummyRender() {
+	async componentDidMount() {
+		const response = await backend.get('/getPostList', {
+
+		})
+		console.log(response.data.posts);
+		this.setState({dummyProj: response.data.posts});
+	}
+	componentWillUnmount() {
+		// this.props.context.updateText(this.state.text)
+		// this.props.context.updateIsSignedIn(this.state.isSignedIn);
+		//console.log("Unmoounted");
+		//this.props.context.initPosts(this.state.dummyProj);
+		this.props.context.initPosts(this.state.dummyProj);
+	}
+
+	convertTimeStamp() {
+
+	}
+
+	renderPosts() {
+		//console.log(this.props.context.posts);
+		const {context} = this.props
+
+		if (this.state.createPost) {
+
+			return <Redirect push to="/CreatePost" />;
+		}
+
 		return (
 			<div className='timeline'>
-				{dummyProjects.map((p) => (
-					<div key={p.postID}>
+				<div style= {{marginTop: '20px'}}>	
+				<Button
+                    variant="primary"
+					style={{ background: '#449955' }}
+					onClick={() => this.setState({ createPost: true })}>
+					Submit a Post
+				</Button>
+				{this.props.context.userName}
+
+				</div>
+				{this.state.dummyProj.map((p) => (
+					<div key={p.post_id}>
 						<Post 
 						postID = {p.postID}
 						title = {p.title}
 						link = {p.link}
+
 						upvotes = {p.upvotes}
-						user = {p.user}
+						user = {p.username}
 						timeStamp = {p.timeStamp}
 						comments = {p.comments}
-						index = {dummyProjects.indexOf(p)+1}
-						context = {this.props.context}
+
+						index = {this.state.dummyProj.indexOf(p)+1}
+						context = {context}
 						/>
 					</div>
 				))}
+				
 				<div className='downArrow bounce'>
 					<img
 						width='40'
@@ -91,8 +94,7 @@ export default class Timeline extends React.Component {
 	render() {
 		return (
 			<div>
-				{this.dummyRender()}
-				{this.props.context.posts}
+				{this.renderPosts()}
 			</div>
 		)
 	}
