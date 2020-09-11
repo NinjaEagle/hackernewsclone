@@ -1,4 +1,5 @@
 const { admin, db } = require("../utils/admin");
+const firebase = require("firebase");
 
 exports.createPost = (request, response) => {
     const body = JSON.parse(request.body["body"]);
@@ -127,3 +128,55 @@ exports.editComment = ( request, response ) => {
     });
 };
 
+
+exports.upvotePost = ( request, response ) => { 
+    const document = db.doc(`/Posts/${request.params.post_id}`);
+    document
+        .get()
+        .then((doc) => {
+            if (!doc.exists) {
+                return response.status(404).json({ error: 'Post not found' })
+            }
+            // TODO: edit the upvote for the username
+            document.update({
+                upvotes: admin.firestore.FieldValue.increment(1)
+            });
+            return document;
+        })
+        .then(() => {
+            response.json({ message: 'Upvote successful' });
+        })
+        .catch((err) => {
+            console.error(err);
+            return response.status(500).json({ error: err.code });
+        });
+};
+
+
+exports.upvoteComment = ( request, response ) => { 
+    let document = db
+        .collection(`/Posts`)
+        .doc(request.params.post_id)
+        .collection("/comments")
+        .doc(request.params.comment_id)
+
+    document
+    .get()
+    .then((doc) => {
+        if (!doc.exists) {
+            return response.status(404).json({ error: 'Post not found' })
+        }
+        // TODO: edit the upvote for the username
+        document.update({
+            upvotes: admin.firestore.FieldValue.increment(1)
+        });
+        return document;
+    })
+    .then(() => {
+        response.json({ message: 'Upvote successful' });
+    })
+    .catch((err) => {
+        console.error(err);
+        reresponse.status(500).json({ error: err.code });
+    });
+};
