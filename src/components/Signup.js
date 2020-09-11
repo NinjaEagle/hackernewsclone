@@ -6,6 +6,7 @@ import {
 	FormGroup,
 	FormControl,
 	FormLabel,
+	Modal
 } from 'react-bootstrap'
 import './css/SignUp.css'
 import backend from '../api/backend'
@@ -18,25 +19,32 @@ export default class SignUp extends React.Component {
 
 		noMatch: false,
 		redirect: false,
+		showModal: false,
+		userAlreadyExists: false,
 	}
 
 	//  link up api calls and input validation
 	createAccount = async (event) => {
-		// this.setState({redirect: true}); // for demoing
+		event.preventDefault();
+		if (this.state.password !== this.state.confirmPassword) {
+		  this.setState({noMatch: true})
+		  return;
+		}
 
-		event.preventDefault()
-		// if (this.state.password !== this.state.confirmPassword) {
-		//   this.setState({noMatch: true})
-		//   return;
-		// }
-		event.preventDefault()
 		const response = await backend.post('/createUser', {
 			body: JSON.stringify({
 				username: this.state.userName,
 				password: this.state.password,
 			}),
 		})
-		console.log(response)
+
+		if(response.data.success=== "true") {
+			this.setState({showModal: true})
+		}
+		else {
+			this.setState({})
+			this.setState({userAlreadyExists: true})
+		}
 	}
 
 	render() {
@@ -47,7 +55,10 @@ export default class SignUp extends React.Component {
 		return (
 			<div className='SignUp'>
 				{this.state.noMatch === true && (
-					<h5>Password and Confirm Password do not match</h5>
+					<h5>Password and Confirm Password do not match!</h5>
+				)}
+				{this.state.userAlreadyExists === true && (
+					<h5>This username already exists please try another one</h5>
 				)}
 				<Card style={{ width: '30rem', height: '34rem' }} bg='dark' text='light'>
 					<Card.Body>
@@ -93,6 +104,18 @@ export default class SignUp extends React.Component {
 						</form>
 					</Card.Body>
 				</Card>
+
+				<Modal show={this.state.showModal} onHide={()=> this.setState({showModal: false})}>
+        <Modal.Header closeButton>
+          <Modal.Title>Account Creation Successful!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>You will be redirected to the Login Page  {this.state.userName}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={()=> {this.setState({redirect: true})}}>
+            Continue
+          </Button>
+        </Modal.Footer>
+      </Modal>
 			</div>
 		)
 	}

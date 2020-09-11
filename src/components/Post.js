@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card } from 'react-bootstrap'
+import {Button, Card } from 'react-bootstrap'
 import './css/Timeline.scss'
 import { Link } from 'react-router-dom'
 import { TriangleFill } from 'react-bootstrap-icons'
@@ -19,15 +19,31 @@ import { TriangleFill } from 'react-bootstrap-icons'
 */
 
 export default class Post extends Component {
+	state = {
+		userPosted: false,
+		showModal: false
+	};
 
 	handleUpvote = (e) => {
 		
 	}
+
+	userPost() {
+		if(this.state.userPosted) {
+			return (
+			<Button 
+			  variant="primary" style={{ background: '#449955' }}
+			  onClick={()=>this.setState({showModal: true})}
+			 >
+				Edit
+			</Button>);
+		}
+		else {
+			return <React.Fragment></React.Fragment>
+		}
+	}
 	
 	render() {
-		// const {isSignedIn, text} = this.props.context;
-		// console.log(isSignedIn);
-		// console.log(text);
 		return (
 		<React.Fragment>
 		<Card className='posts'>
@@ -46,10 +62,11 @@ export default class Post extends Component {
 				<Card.Text>({this.props.link})</Card.Text>
 			</Card.Body>
 			<Card.Footer>
-				{this.props.upvotes} points by {this.props.user}posted on {this.props.timeStamp} |{' '}
+				{this.props.upvotes} points by {this.props.user} posted on {this.props.timeStamp} |{' '}
 				<Link to={'/Comments/' + this.props.postID} post={this.props.postID}>
 					{this.props.comments} comments{' '}
 				</Link>
+				{}
 			</Card.Footer>
 		</Card>
 		</React.Fragment>

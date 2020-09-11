@@ -4,8 +4,6 @@ import './css/CreatePost.css'
 import {Redirect} from 'react-router-dom'
 import backend from '../api/backend'
 
-let count = 222;
-let upvotesCount = 2;
 export default class CreatePost extends React.Component {
 	state = {
         title: "",
@@ -21,19 +19,7 @@ export default class CreatePost extends React.Component {
     }
 
     createPost = async (event) => {
-       // API call here 
-       // most of the stuff below will be changed
        event.preventDefault();
-
-        // let addPost =  {
-        //     postID: 332424,
-        //     title: this.state.title,
-        //     link: this.state.url,
-        //     upvotes: 33,
-        //     user: this.props.context.user,
-        //     timeStamp: '2 hours',
-        //     comments: 9,
-        // }
 
         const response = await backend.post('/createPost', {
 			body: JSON.stringify({
@@ -47,15 +33,11 @@ export default class CreatePost extends React.Component {
         })
         
         console.log(response);
-        // count = count + 1;
-        // upvotesCount = upvotesCount * 2;
-        // console.log("WHAT");
-        // this.props.context.updatePosts(addPost);
         this.setState({showModal: true});
     }
 
 	render() {
-        console.log(this.state.submitComplete);
+        //console.log(this.state.submitComplete);
 
         if (this.state.submitComplete) {
 			return <Redirect push to="/LogIn" />;
@@ -65,7 +47,7 @@ export default class CreatePost extends React.Component {
             <div className='CreatePost'>
                 <Card style={{ width: '30rem', height: '34rem' }} bg='dark' text='light'>
 					<Card.Body>
-						<Card.Title>Submit a Post</Card.Title>
+						<Card.Title>Submit a Post {this.props.context.userName}</Card.Title>
                     <form onSubmit={this.createPost}>
                     <FormGroup controlId='title'>
                         <FormLabel style={{ color: 'white' }}>Title</FormLabel>
@@ -99,7 +81,7 @@ export default class CreatePost extends React.Component {
                        <div style={{ paddingTop: '15px' }}>
 								<Card.Footer>
 									<Button block size='large' type='submit' variant='danger'>
-										Create Account
+										Create Post
 									</Button>
 								</Card.Footer>
 							</div>

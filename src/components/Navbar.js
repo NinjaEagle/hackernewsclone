@@ -21,13 +21,13 @@ export default function Navbar(props) {
               </h3>
             </Link>
           </div>
-          {/* <div className='tabBox'>
+          <div className='tabBox'>
 						<Link to='/Signup' state={'Signup'}>
 							<h3 className='TabLabel' label='Timeline'>
 								Sign Up
 							</h3>
 						</Link>
-					</div> */}
+					</div> 
           {/* <div className='tabBox'>
 						<Link to='/Profile' state={'Profile'}>
 							<h3 className='TabLabel' label='Profile'>

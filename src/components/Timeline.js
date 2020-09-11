@@ -11,7 +11,7 @@ export default class Timeline extends React.Component {
 		index: 0,
 		text: "",
 		isSignedIn: false,
-		dummyProj: this.props.context.posts,
+		localPosts: this.props.context.posts,
 		createPost: false,
 	}
 	handleUpvote = (e) => {
@@ -26,14 +26,10 @@ export default class Timeline extends React.Component {
 
 		})
 		console.log(response.data.posts);
-		this.setState({dummyProj: response.data.posts});
+		this.setState({localPosts: response.data.posts});
 	}
 	componentWillUnmount() {
-		// this.props.context.updateText(this.state.text)
-		// this.props.context.updateIsSignedIn(this.state.isSignedIn);
-		//console.log("Unmoounted");
-		//this.props.context.initPosts(this.state.dummyProj);
-		this.props.context.initPosts(this.state.dummyProj);
+		this.props.context.initPosts(this.state.localPosts);
 	}
 
 	convertTimeStamp() {
@@ -41,7 +37,6 @@ export default class Timeline extends React.Component {
 	}
 
 	renderPosts() {
-		//console.log(this.props.context.posts);
 		const {context} = this.props
 
 		if (this.state.createPost) {
@@ -61,7 +56,7 @@ export default class Timeline extends React.Component {
 				{this.props.context.userName}
 
 				</div>
-				{this.state.dummyProj.map((p) => (
+				{this.state.localPosts.map((p) => (
 					<div key={p.post_id}>
 						<Post 
 						postID = {p.postID}
@@ -73,7 +68,7 @@ export default class Timeline extends React.Component {
 						timeStamp = {p.timeStamp}
 						comments = {p.comments}
 
-						index = {this.state.dummyProj.indexOf(p)+1}
+						index = {this.state.localPosts.indexOf(p)+1}
 						context = {context}
 						/>
 					</div>

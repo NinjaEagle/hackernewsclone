@@ -34,7 +34,7 @@ export default class LogIn extends React.Component {
 	// to do link buttons to pages
 	// link up api calls
 	validateLogin = async (event) => {
-		
+
 		event.preventDefault();
 		const response = await backend.post('/validateUser', {
 			body: JSON.stringify({
@@ -47,6 +47,7 @@ export default class LogIn extends React.Component {
 		if(this._isMounted) {
 			this.props.context.updateUser_id(response.data.user_id);
 			this.props.context.updateUsername(this.state.userName);
+			this.props.context.isSignedIn(true);
 			this.setState({showModal: true});
 		}
 
