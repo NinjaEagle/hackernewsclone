@@ -29,7 +29,6 @@ export default class SignUp extends React.Component {
 		//   this.setState({noMatch: true})
 		//   return;
 		// }
-		event.preventDefault()
 		const response = await backend.post('/createUser', {
 			body: JSON.stringify({
 				username: this.state.userName,

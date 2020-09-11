@@ -7,7 +7,6 @@ class MyProvider extends React.Component {
 		// context variables
 		user: {},
 		posts: [],
-		post: [],
 		isSignedIn: false,
 
 		// need to bind functions to keep simple syntax
@@ -17,13 +16,7 @@ class MyProvider extends React.Component {
 	}
 
 	// function defintions down here
-	seeComments(posts) {
-		this.setState({ posts })
-	}
 
-	seeOnePost(post) {
-		this.setState({ post })
-	}
 	updateUser(user) {
 		this.setState({ user })
 	}
