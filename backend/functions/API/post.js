@@ -47,10 +47,25 @@ exports.deletePost = (request, response) => {
             if (!doc.exists) {
                 return response.status(404).json({ error: 'Post not found' })
             }
+            var uid = doc.data().uid;
             // TODO: delete the post to post array of user
             db 
                 .collection("/Users")
                 .doc(uid)
+                .get()
+                .then((doc) => {
+                    var doc_data = doc.data();
+                    var posts = doc_data.posts;
+                    for (var i = 0; i < posts.length; i++) {
+                        if (posts[i].post_id == document.id) {
+                            posts.splice(i, 1)
+                            break;
+                        }
+                    }
+                    db.collection("/Users").doc(uid).update({
+                        posts: posts
+                    })
+                })
     
             return document.delete();
         })
