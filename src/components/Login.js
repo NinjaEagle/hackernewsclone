@@ -45,6 +45,7 @@ export default class LogIn extends React.Component {
 		if (this._isMounted) {
 			this.props.context.updateUser_id(response.data.user_id)
 			this.props.context.updateUsername(this.state.userName)
+			this.props.context.isSignedIn(true)
 			this.setState({ showModal: true })
 		}
 	}

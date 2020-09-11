@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import { TriangleFill } from 'react-bootstrap-icons'
 import './css/Comment.css'
-import Post from './Post'
-import Login from './Login'
-import { Route } from 'react-router-dom'
 
 export default class Comments extends Component {
 	state = {

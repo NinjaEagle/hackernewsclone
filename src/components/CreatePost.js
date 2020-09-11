@@ -12,8 +12,6 @@ import './css/CreatePost.css'
 import { Redirect } from 'react-router-dom'
 import backend from '../api/backend'
 
-let count = 222
-let upvotesCount = 2
 export default class CreatePost extends React.Component {
 	state = {
 		title: '',
@@ -24,48 +22,25 @@ export default class CreatePost extends React.Component {
 		showModal: false,
 	}
 
-	componentDidMount() {}
-
 	createPost = async (event) => {
-		// API call here
-		// most of the stuff below will be changed
 		event.preventDefault()
 
-		// let addPost =  {
-		//     postID: 332424,
-		//     title: this.state.title,
-		//     link: this.state.url,
-		//     upvotes: 33,
-		//     user: this.props.context.user,
-		//     timeStamp: '2 hours',
-		//     comments: 9,
-		// }
-		// if user is signed in, the user can post
-		if (this.props.context.isSignedIn) {
-			const response = await backend.post('/createPost', {
-				body: JSON.stringify({
-					title: this.state.title,
-					description: this.state.description,
-					link: this.state.url,
-					uid: this.props.context.user_id,
-					username: this.props.context.userName,
-				}),
-			})
-			console.log(response)
-			this.setState({ showModal: true })
-		} else {
-			return <Redirect to='/Login' />
-		}
+		const response = await backend.post('/createPost', {
+			body: JSON.stringify({
+				title: this.state.title,
+				description: this.state.description,
+				link: this.state.url,
+				uid: this.props.context.user_id,
+				username: this.props.context.userName,
+			}),
+		})
 
-		// count = count + 1;
-		// upvotesCount = upvotesCount * 2;
-		// console.log("WHAT");
-		// this.props.context.updatePosts(addPost);
+		console.log(response)
+		this.setState({ showModal: true })
 	}
 
 	render() {
-		console.log(this.state.submitComplete)
-		console.log(this.props.context.isSignedIn)
+		//console.log(this.state.submitComplete);
 
 		if (this.state.submitComplete) {
 			return <Redirect push to='/LogIn' />
@@ -75,7 +50,7 @@ export default class CreatePost extends React.Component {
 			<div className='CreatePost'>
 				<Card style={{ width: '30rem', height: '34rem' }} bg='dark' text='light'>
 					<Card.Body>
-						<Card.Title>Submit a Post</Card.Title>
+						<Card.Title>Submit a Post {this.props.context.userName}</Card.Title>
 						<form onSubmit={this.createPost}>
 							<FormGroup controlId='title'>
 								<FormLabel style={{ color: 'white' }}>Title</FormLabel>
