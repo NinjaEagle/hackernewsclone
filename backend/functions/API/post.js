@@ -26,6 +26,9 @@ exports.createPost = (request, response) => {
             db 
                 .collection("/Users")
                 .doc(uid)
+                .update({
+                    posts: admin.firestore.FieldValue.arrayUnion(responsePost)
+                })
     
             return response.json(responsePost);
         })
