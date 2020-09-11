@@ -42,6 +42,28 @@ exports.validateUser = (request, response) => {
     
 }
 
+exports.getUserProfile = (request, response) => {
+    const body = JSON.parse(request.body["body"]);
+    var uid = body["user_id"];
+    db
+    .collection("/Users")
+    .doc(uid)
+    .get()
+    .then((doc) => {
+        if (!doc.exists) {
+            response.status(200).json({
+                error: "User not found"
+            })
+        }
+        var user_data = doc.data();
+        response.status(200).json({
+            user: user_data
+        })
+
+    })
+
+}
+
 exports.createUser = (request, response) =>{
     const body = JSON.parse(request.body["body"]);
     var username = body["username"];
@@ -84,7 +106,7 @@ exports.createUser = (request, response) =>{
                 })
     
         } else {
-            return response.status(500).json({
+            return response.status(200).json({
                 error: "Duplicate User"
             })
         }
