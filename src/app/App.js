@@ -35,15 +35,10 @@ export default class App extends React.Component {
 											render={(props) => <Login {...props} {...context} />}
 										/>
 
-										{/* <Route
-											path='/Comments'
-											exact
-											render={(props) => <Comments {...props} {...context} />}
-										/> */}
 										<Route
 											path='/Comments/:id'
 											exact
-											component={(props) => <Comments {...props} {...context} />}
+											render={(props) => <Comments {...props} {...context} />}
 										/>
 										<Route
 											path='/CreatePost'
