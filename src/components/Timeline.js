@@ -46,13 +46,14 @@ export default class Timeline extends React.Component {
 		return (
 			<div className='timeline'>
 				<div style={{ marginTop: '20px' }}>
+					Welcome {this.props.context.userName}!
+					<br />
 					<Button
 						variant='primary'
 						style={{ background: '#449955' }}
 						onClick={() => this.setState({ createPost: true })}>
 						Submit a Post
 					</Button>
-					{this.props.context.userName}
 				</div>
 				{this.state.dummyProj.map((p) => (
 					<div key={p.post_id}>

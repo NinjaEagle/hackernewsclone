@@ -46,7 +46,7 @@ export default class Post extends Component {
 						<Card.Text>({this.props.link})</Card.Text>
 					</Card.Body>
 					<Card.Footer>
-						{this.props.upvotes} points by {this.props.user}posted on{' '}
+						{this.props.upvotes} points by {this.props.user} posted on{' '}
 						{this.props.timeStamp} |{' '}
 						<Link to={'/Comments/' + this.props.postID} post={this.props.postID}>
 							{this.props.comments} comments{' '}

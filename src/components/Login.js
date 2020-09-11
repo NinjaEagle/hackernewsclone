@@ -7,49 +7,46 @@ import {
 	FormControl,
 	FormLabel,
 	Modal,
+	Nav,
 } from 'react-bootstrap'
 import './css/Login.css'
 import backend from '../api/backend'
 
 export default class LogIn extends React.Component {
-	
 	constructor(props) {
-		super(props);
-	
-		this._isMounted = false;
+		super(props)
+
+		this._isMounted = false
 		this.state = {
 			userName: '',
 			password: '',
 			response: '',
 			redirect: false,
 			showModal: false,
-		};
+		}
 	}
-	
 
 	componentDidMount() {
-		this._isMounted=true;
+		this._isMounted = true
 	}
 
 	// to do link buttons to pages
 	// link up api calls
 	validateLogin = async (event) => {
-		
-		event.preventDefault();
+		event.preventDefault()
 		const response = await backend.post('/validateUser', {
 			body: JSON.stringify({
 				username: this.state.userName.toLowerCase(),
 				password: this.state.password,
 			}),
 		})
-		console.log(response);
+		console.log(response)
 
-		if(this._isMounted) {
-			this.props.context.updateUser_id(response.data.user_id);
-			this.props.context.updateUsername(this.state.userName);
-			this.setState({showModal: true});
+		if (this._isMounted) {
+			this.props.context.updateUser_id(response.data.user_id)
+			this.props.context.updateUsername(this.state.userName)
+			this.setState({ showModal: true })
 		}
-
 	}
 
 	handleRedirect = (event) => {
@@ -57,7 +54,7 @@ export default class LogIn extends React.Component {
 	}
 
 	componentWillUnmount() {
-		this._isMounted = false;
+		this._isMounted = false
 	}
 
 	render() {
@@ -99,23 +96,32 @@ export default class LogIn extends React.Component {
 						<Card.Footer>
 							<div className='text-muted'>Don't have an account?</div>
 						</Card.Footer>
-						<Button size='small' type='submit' variant='danger'>
-							Sign Up
+						<Button onClick={this.signUp} size='small' type='submit' variant='danger'>
+							<Nav.Item>
+								<Nav.Link href='/SignUp'>SignUp</Nav.Link>
+							</Nav.Item>
+							{/* Sign Up */}
 						</Button>
 					</Card.Body>
 				</Card>
 
-		<Modal show={this.state.showModal} onHide={()=> this.setState({showModal: false})}>
-        <Modal.Header closeButton>
-          <Modal.Title>Logged In Sucessfully</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>You are logged in as {this.props.context.userName}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={()=> {this.setState({redirect: true})}}>
-            Continue
-          </Button>
-        </Modal.Footer>
-      </Modal>
+				<Modal
+					show={this.state.showModal}
+					onHide={() => this.setState({ showModal: false })}>
+					<Modal.Header closeButton>
+						<Modal.Title>Logged In Sucessfully</Modal.Title>
+					</Modal.Header>
+					<Modal.Body>You are logged in as {this.props.context.userName}</Modal.Body>
+					<Modal.Footer>
+						<Button
+							variant='primary'
+							onClick={() => {
+								this.setState({ redirect: true })
+							}}>
+							Continue
+						</Button>
+					</Modal.Footer>
+				</Modal>
 			</div>
 		)
 	}

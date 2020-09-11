@@ -1,22 +1,21 @@
 import React from 'react'
 
-
 const AppContext = React.createContext()
 
 class MyProvider extends React.Component {
 	state = {
 		// context variables
-		userName: "Dav",
-		user_id: "",
+		userName: '',
+		user_id: '',
 		posts: [],
 		comments: [],
 		isSignedIn: false,
-		text: "H",
+		text: 'H',
 
 		// need to bind functions to keep simple syntax
 		updateText: (text) => this.updateText(text),
 
-		initPosts: (initPosts) =>this.initPosts(initPosts),
+		initPosts: (initPosts) => this.initPosts(initPosts),
 
 		updateUser_id: (user_id) => this.updateUser_id(user_id),
 
@@ -41,28 +40,28 @@ class MyProvider extends React.Component {
 	}
 
 	initPosts(initPosts) {
-		this.setState({posts: initPosts});
+		this.setState({ posts: initPosts })
 	}
 
 	updateText(text) {
-		this.setState({ text });
+		this.setState({ text })
 	}
 
 	updateUser_id(user_id) {
-		this.setState({ user_id });
+		this.setState({ user_id })
 	}
 
 	updateUsername(userName) {
-		this.setState({ userName });
+		this.setState({ userName })
 	}
 
 	updatePosts(addPosts) {
-		this.setState({ posts: [...this.state.posts, addPosts] });
-		console.log(this.state.posts);
+		this.setState({ posts: [...this.state.posts, addPosts] })
+		console.log(this.state.posts)
 	}
 
 	updateIsSignedIn(isSignedIn) {
-		this.setState({ isSignedIn });
+		this.setState({ isSignedIn })
 	}
 
 	render() {
@@ -75,7 +74,6 @@ class MyProvider extends React.Component {
 }
 
 export { MyProvider, AppContext }
-
 
 // dummy Projects below
 

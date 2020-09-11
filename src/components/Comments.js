@@ -2,10 +2,13 @@ import React, { Component } from 'react'
 import { TriangleFill } from 'react-bootstrap-icons'
 import './css/Comment.css'
 import Post from './Post'
+import Login from './Login'
+import { Route } from 'react-router-dom'
 
 export default class Comments extends Component {
 	state = {
-		text: [],
+		post: [],
+		text: '',
 		user: 'Kevin',
 		timeStamp: '',
 	}
@@ -28,11 +31,11 @@ export default class Comments extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault()
 
-		this.props.newComment(this.props.postID)
+		// this.props.newComment(this.props.postID)
 	}
 
 	render() {
-		console.log(this.props.context.isSignedIn)
+		console.log(this.props.context.posts)
 		console.log(this.state)
 		return (
 			<div className='comments'>
@@ -48,6 +51,7 @@ export default class Comments extends Component {
 							placeholder='Say something...'
 						/>
 						<br />
+
 						<input type='submit' value='add comment' />
 					</form>
 				</div>
