@@ -6,16 +6,28 @@ import {
 	FormGroup,
 	FormControl,
 	FormLabel,
+	Modal,
+	Nav,
 } from 'react-bootstrap'
 import './css/Login.css'
 import backend from '../api/backend'
 
 export default class LogIn extends React.Component {
-	state = {
-		userName: '',
-		password: '',
-		response: '',
-		redirect: false,
+	constructor(props) {
+		super(props)
+
+		this._isMounted = false
+		this.state = {
+			userName: '',
+			password: '',
+			response: '',
+			redirect: false,
+			showModal: false,
+		}
+	}
+
+	componentDidMount() {
+		this._isMounted = true
 	}
 
 	// to do link buttons to pages
@@ -29,11 +41,26 @@ export default class LogIn extends React.Component {
 			}),
 		})
 		console.log(response)
+
+		if (this._isMounted) {
+			this.props.context.updateUser_id(response.data.user_id)
+			this.props.context.updateUsername(this.state.userName)
+			this.props.context.updateIsSignedIn(true)
+			this.setState({ showModal: true })
+		}
+	}
+
+	handleRedirect = (event) => {
+		this.setState({})
+	}
+
+	componentWillUnmount() {
+		this._isMounted = false
 	}
 
 	render() {
 		if (this.state.redirect) {
-			return <Redirect push to='/Profile' />
+			return <Redirect push to='/' />
 		}
 
 		return (
@@ -70,11 +97,32 @@ export default class LogIn extends React.Component {
 						<Card.Footer>
 							<div className='text-muted'>Don't have an account?</div>
 						</Card.Footer>
-						<Button size='small' type='submit' variant='danger'>
-							Sign Up
+						<Button onClick={this.signUp} size='small' type='submit' variant='danger'>
+							<Nav.Item>
+								<Nav.Link href='/SignUp'>SignUp</Nav.Link>
+							</Nav.Item>
+							{/* Sign Up */}
 						</Button>
 					</Card.Body>
 				</Card>
+
+				<Modal
+					show={this.state.showModal}
+					onHide={() => this.setState({ showModal: false })}>
+					<Modal.Header closeButton>
+						<Modal.Title>Logged In Sucessfully</Modal.Title>
+					</Modal.Header>
+					<Modal.Body>You are logged in as {this.props.context.userName}</Modal.Body>
+					<Modal.Footer>
+						<Button
+							variant='primary'
+							onClick={() => {
+								this.setState({ redirect: true })
+							}}>
+							Continue
+						</Button>
+					</Modal.Footer>
+				</Modal>
 			</div>
 		)
 	}

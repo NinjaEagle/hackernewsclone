@@ -1,16 +1,37 @@
 import React, { Component } from 'react'
 import { TriangleFill } from 'react-bootstrap-icons'
 import './css/Comment.css'
+import backend from '../api/backend'
 
 export default class Comments extends Component {
 	state = {
-		text: 'Hi',
-		user: 'Kevin',
+		localPosts: [],
+		text: '',
+		user: '',
 		timeStamp: '',
 	}
 	clickBttn = () => {
 		this.props.context.updatePosts('Hi')
 		console.log(this.props.context.posts)
+	}
+	async componentDidMount() {
+		const response = await backend.get('/getPostList', {})
+		console.log(response)
+		this.setState({ localPosts: response.data.posts })
+	}
+
+	postDetails = (post) => {
+		if (post) {
+			return (
+				<div>
+					<h1>{post.title}</h1>
+					<p>
+						{post.upvotes} upvotes by {post.username} {post.timeStamp} ago{' '}
+						{post.comments}
+					</p>
+				</div>
+			)
+		}
 	}
 
 	handlePost = (props) => {
@@ -19,20 +40,39 @@ export default class Comments extends Component {
 			console.log(props.postID)
 		}
 	}
+	handleChange = (e) => {
+		console.log(e.target)
+		this.setState({ [e.target.name]: e.target.value })
+	}
+
 	handleSubmit = (e) => {
 		e.preventDefault()
-		console.log(e.target.value)
+
+		// this.props.newComment(this.props.postID)
 	}
 
 	render() {
-		console.log(this.props.context.isSignedIn)
+		let post = this.state.localPosts.filter((post) => {
+			return post.post_id == this.props.match.params.id
+		})
+		console.log(post)
+
 		return (
 			<div className='comments'>
 				{/* <button onClick={this.clickBttn}>Click me</button> */}
 				<div className='boxes'>
+					{this.postDetails(post[0])}
 					<form onSubmit={this.handleSubmit} className='commentForm'>
-						<input className='textbox' type='text' placeholder='Say something...' />
+						<input
+							onChange={this.handleChange}
+							className='textbox'
+							required
+							type='text'
+							name='text'
+							placeholder='Say something...'
+						/>
 						<br />
+
 						<input type='submit' value='add comment' />
 					</form>
 				</div>
@@ -46,7 +86,6 @@ export default class Comments extends Component {
 						{this.state.user} {this.state.timestamp} ago [-]
 					</p>
 				</div>
-				<p>{this.state.text}</p>
 			</div>
 		)
 	}
