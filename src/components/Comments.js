@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { TriangleFill } from 'react-bootstrap-icons'
 import './css/Comment.css'
+import Post from './Post'
 
 export default class Comments extends Component {
 	state = {

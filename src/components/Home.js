@@ -6,21 +6,19 @@ import Timeline from './Timeline'
 export default class Home extends React.Component {
 	state = {}
 
-	componentDidMount() {}
-
 	render() {
+		const {context} = this.props
 		return (
 			<div className='blank'>
 				<Container>
 					<Row>
 						<Col>
 							<div className='posts-list' style={{ paddingTop: '20px' }}>
-								<Timeline />
+								<Timeline context = {context} />
 							</div>
 						</Col>
 					</Row>
 				</Container>
-
 				<div className='downArrow bounce'>
 					<img
 						width='40'
