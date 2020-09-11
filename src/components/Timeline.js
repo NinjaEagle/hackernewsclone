@@ -22,7 +22,6 @@ export default class Timeline extends React.Component {
 
 	async componentDidMount() {
 		const response = await backend.get('/getPostList', {})
-		console.log(response.data.posts)
 		this.setState({ localPosts: response.data.posts })
 	}
 	componentWillUnmount() {
@@ -53,12 +52,12 @@ export default class Timeline extends React.Component {
 				{this.state.localPosts.map((p) => (
 					<div key={p.post_id}>
 						<Post
-							postID={p.postID}
+							postID={p.post_id}
 							title={p.title}
 							link={p.link}
 							upvotes={p.upvotes}
 							user={p.username}
-							timeStamp={p.timeStamp}
+							timeStamp={p.timestamp}
 							comments={p.comments}
 							index={this.state.localPosts.indexOf(p) + 1}
 							context={context}
@@ -79,6 +78,7 @@ export default class Timeline extends React.Component {
 	}
 
 	render() {
+		console.log(this.state.localPosts)
 		return <div>{this.renderPosts()}</div>
 	}
 }

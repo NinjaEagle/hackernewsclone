@@ -1,17 +1,37 @@
 import React, { Component } from 'react'
 import { TriangleFill } from 'react-bootstrap-icons'
 import './css/Comment.css'
+import backend from '../api/backend'
 
 export default class Comments extends Component {
 	state = {
-		post: [],
+		localPosts: [],
 		text: '',
-		user: 'Kevin',
+		user: '',
 		timeStamp: '',
 	}
 	clickBttn = () => {
 		this.props.context.updatePosts('Hi')
 		console.log(this.props.context.posts)
+	}
+	async componentDidMount() {
+		const response = await backend.get('/getPostList', {})
+		console.log(response)
+		this.setState({ localPosts: response.data.posts })
+	}
+
+	postDetails = (post) => {
+		if (post) {
+			return (
+				<div>
+					<h1>{post.title}</h1>
+					<p>
+						{post.upvotes} upvotes by {post.username} {post.timeStamp} ago{' '}
+						{post.comments}
+					</p>
+				</div>
+			)
+		}
 	}
 
 	handlePost = (props) => {
@@ -32,12 +52,16 @@ export default class Comments extends Component {
 	}
 
 	render() {
-		console.log(this.props.context.posts)
-		console.log(this.state)
+		let post = this.state.localPosts.filter((post) => {
+			return post.post_id == this.props.match.params.id
+		})
+		console.log(post)
+
 		return (
 			<div className='comments'>
 				{/* <button onClick={this.clickBttn}>Click me</button> */}
 				<div className='boxes'>
+					{this.postDetails(post[0])}
 					<form onSubmit={this.handleSubmit} className='commentForm'>
 						<input
 							onChange={this.handleChange}

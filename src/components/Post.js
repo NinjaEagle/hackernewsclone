@@ -45,6 +45,9 @@ export default class Post extends Component {
 	}
 
 	render() {
+		// let time = this.props.timeStamp
+		// let splitTime = time.split(':')
+
 		return (
 			<React.Fragment>
 				<Card className='posts'>
