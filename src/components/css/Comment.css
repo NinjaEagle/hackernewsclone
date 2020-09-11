@@ -1,14 +1,24 @@
 .form {
-  margin: 20px 50px 10px 50px;
-  width: 50%;
-
-  display: flex;
-  flex-direction: column;
+	margin: 20px 50px 10px 50px;
+	width: 50%;
 }
 .combutton {
-  margin-top: 10px;
+	margin-top: 10px;
 }
 
-.form-control {
-  height: 150px;
+.comments {
+	display: flex;
+	flex-direction: column;
+	margin-left: 20px;
+	margin-top: 10px;
+	margin-right: 20px;
+	background-color: #f6f6ef;
+}
+.boxes {
+	margin-bottom: 10px;
+}
+.textbox {
+	height: 80px;
+	width: 40%;
+	margin-bottom: 10px;
 }

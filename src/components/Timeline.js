@@ -3,6 +3,9 @@ import { Card } from 'react-bootstrap'
 import './css/Timeline.scss'
 import { Link } from 'react-router-dom'
 import { TriangleFill } from 'react-bootstrap-icons'
+import SubmitPost from './SubmitPost'
+
+import Post from './Post'
 
 let dummyProjects = [
 	{
@@ -48,42 +51,24 @@ export default class Timeline extends React.Component {
 	state = {
 		index: 0,
 	}
-	handleUpvote = (e) => {
-		e.preventDefault()
-	}
-	handleLink = (link) => {
-		console.log(link)
-		// window.open(link)
-	}
 
 	dummyRender() {
-		let index = 1
 		return (
 			<div className='timeline'>
 				{dummyProjects.map((p) => (
 					<div key={p.postID}>
-						<Card className='posts'>
-							<Card.Header>
-								<TriangleFill
-									onClick={this.handleUpvote}
-									size={16}
-									style={{ cursor: 'pointer' }}
-								/>
-								{index++}.
-							</Card.Header>
-							<Card.Body className='postcards'>
-								<Card.Title onClick={this.handleLink(p.link)}>
-									<a href={p.link}>{p.title}</a>
-								</Card.Title>
-								<Card.Text>({p.link})</Card.Text>
-							</Card.Body>
-							<Card.Footer>
-								{p.upvotes} points by {p.user} {p.timeStamp} ago |{' '}
-								<Link to='/Comments' post={p}>
-									{p.comments} comments{' '}
-								</Link>
-							</Card.Footer>
-						</Card>
+						<Post
+							post={p}
+							postID={p.postID}
+							title={p.title}
+							link={p.link}
+							upvotes={p.upvotes}
+							user={p.user}
+							timeStamp={p.timeStamp}
+							comments={p.comments}
+							index={dummyProjects.indexOf(p) + 1}
+							context={this.props.context}
+						/>
 					</div>
 				))}
 				<div className='downArrow bounce'>
@@ -100,9 +85,10 @@ export default class Timeline extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div className='timeline'>
+				<SubmitPost />
 				{this.dummyRender()}
-				{this.props.context.posts}
+				{/* {this.props.context.posts} */}
 			</div>
 		)
 	}
