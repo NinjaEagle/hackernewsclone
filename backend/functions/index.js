@@ -10,12 +10,17 @@ const cors = require('cors');
 // });
 const {
     validateUser,
-    createUser
+    createUser,
+    getPostList,
+    getCommentList
 } = require("./API/user")
 
 app.use(cors())
 app.post("/validateUser", validateUser)
 app.post("/createUser", createUser)
+app.get("/getPostList", getPostList)
+app.post("/getCommentList", getCommentList)
+
 
 const {
     createPost,
