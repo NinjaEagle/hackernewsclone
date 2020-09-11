@@ -22,7 +22,7 @@ exports.createPost = (request, response) => {
         .then((doc) => {
             const responsePost = newPost;
             responsePost.post_id = doc.id; 
-            // TODO: add the post to post array of user
+            // add the post to post array of user
             db 
                 .collection("/Users")
                 .doc(uid)
@@ -158,7 +158,13 @@ exports.upvotePost = ( request, response ) => {
             // TODO: edit the upvote for the username
             document.update({
                 upvotes: admin.firestore.FieldValue.increment(1)
-            });
+            })
+            db 
+                .collection("/Users")
+                .doc(doc.data().uid)
+                .update({
+                    upvotes: admin.firestore.FieldValue.arrayUnion(doc.data())
+                })
             return document;
         })
         .then(() => {
