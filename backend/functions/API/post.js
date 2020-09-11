@@ -28,6 +28,9 @@ exports.createPost = (request, response) => {
             db 
                 .collection("/Users")
                 .doc(uid)
+                .update({
+                    posts: admin.firestore.FieldValue.arrayUnion(responsePost)
+                })
     
             return response.json(responsePost);
         })
@@ -46,10 +49,24 @@ exports.deletePost = (request, response) => {
             if (!doc.exists) {
                 return response.status(404).json({ error: 'Post not found' })
             }
-            // TODO: delete the post to post array of user
+            var uid = doc.data().uid;
             db 
                 .collection("/Users")
                 .doc(uid)
+                .get()
+                .then((doc) => {
+                    var doc_data = doc.data();
+                    var posts = doc_data.posts;
+                    for (var i = 0; i < posts.length; i++) {
+                        if (posts[i].post_id == document.id) {
+                            posts.splice(i, 1)
+                            break;
+                        }
+                    }
+                    db.collection("/Users").doc(uid).update({
+                        posts: posts
+                    })
+                })
     
             return document.delete();
         })
@@ -139,10 +156,16 @@ exports.upvotePost = ( request, response ) => {
             if (!doc.exists) {
                 return response.status(404).json({ error: 'Post not found' })
             }
-            // TODO: edit the upvote for the username
+            // edit the upvote for the username
             document.update({
                 upvotes: admin.firestore.FieldValue.increment(1)
-            });
+            })
+            db 
+                .collection("/Users")
+                .doc(doc.data().uid)
+                .update({
+                    upvotes: admin.firestore.FieldValue.arrayUnion(doc.data())
+                })
             return document;
         })
         .then(() => {
@@ -168,7 +191,6 @@ exports.upvoteComment = ( request, response ) => {
         if (!doc.exists) {
             return response.status(404).json({ error: 'Post not found' })
         }
-        // TODO: edit the upvote for the username
         document.update({
             upvotes: admin.firestore.FieldValue.increment(1)
         });
