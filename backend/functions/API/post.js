@@ -11,6 +11,7 @@ exports.createPost = (request, response) => {
         description: description,
         link: post_link,
         uid: uid,
+        upvotes: 0,
         createdAt: new Date().toISOString()
     }
     db
