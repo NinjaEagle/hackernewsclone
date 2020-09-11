@@ -51,29 +51,23 @@ export default class Timeline extends React.Component {
 	state = {
 		index: 0,
 	}
-	handleUpvote = (e) => {
-		e.preventDefault()
-	}
-	handleLink = (link) => {
-		console.log(link)
-		// window.open(link)
-	}
 
 	dummyRender() {
 		return (
 			<div className='timeline'>
 				{dummyProjects.map((p) => (
 					<div key={p.postID}>
-						<Post 
-						postID = {p.postID}
-						title = {p.title}
-						link = {p.link}
-						upvotes = {p.upvotes}
-						user = {p.user}
-						timeStamp = {p.timeStamp}
-						comments = {p.comments}
-						index = {dummyProjects.indexOf(p)+1}
-						context = {this.props.context}
+						<Post
+							post={p}
+							postID={p.postID}
+							title={p.title}
+							link={p.link}
+							upvotes={p.upvotes}
+							user={p.user}
+							timeStamp={p.timeStamp}
+							comments={p.comments}
+							index={dummyProjects.indexOf(p) + 1}
+							context={this.props.context}
 						/>
 					</div>
 				))}
@@ -94,7 +88,7 @@ export default class Timeline extends React.Component {
 			<div className='timeline'>
 				<SubmitPost />
 				{this.dummyRender()}
-				{this.props.context.posts}
+				{/* {this.props.context.posts} */}
 			</div>
 		)
 	}

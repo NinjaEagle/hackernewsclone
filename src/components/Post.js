@@ -4,8 +4,6 @@ import './css/Timeline.scss'
 import { Link } from 'react-router-dom'
 import { TriangleFill } from 'react-bootstrap-icons'
 
-
-
 /*
         // -- PROPS THAT SHOULD BE PASSED TO POST	--//
 		postID: INT
@@ -13,44 +11,46 @@ import { TriangleFill } from 'react-bootstrap-icons'
 		link: STRING(make sure it's a link)
 		upvotes: INT
 		user: STRING
-		timeStamp: STRING make sure 
+		timeStamp: STRING make sure
 		comments: SHOULD BE ARRAY but for now INT
 		index : INT // index in the timeline
 */
 
 export default class Post extends Component {
-
 	handleUpvote = (e) => {
 		e.preventDefault()
+		if (this.props.context.isSignedIn) {
+			document.querySelector()
+		}
 	}
-	
+
 	render() {
 		return (
-		<React.Fragment>
-		<Card className='posts'>
-			<Card.Header>
-				<TriangleFill
-					onClick={this.handleUpvote}
-					size={16}
-					style={{ cursor: 'pointer' }}
-				/>
-				{this.props.index}.
-			</Card.Header>
-			<Card.Body className='postcards'>
-				<Card.Title>
-					<a href={this.props.link}>{this.props.title}</a>
-				</Card.Title>
-				<Card.Text>({this.props.link})</Card.Text>
-			</Card.Body>
-			<Card.Footer>
-				{this.props.upvotes} points by {this.props.user} {this.props.timeStamp} ago |{' '}
-				<Link to={'/Comments/' + this.props.postID} post={this.props.postID}>
-					{this.props.comments} comments{' '}
-				</Link>
-			</Card.Footer>
-		</Card>
-		</React.Fragment>
-	  )
+			<React.Fragment>
+				<Card className='posts'>
+					<Card.Header>
+						<TriangleFill
+							onClick={this.handleUpvote}
+							size={16}
+							style={{ cursor: 'pointer' }}
+						/>
+						{this.props.index}.
+					</Card.Header>
+					<Card.Body className='postcards'>
+						<Card.Title>
+							<a href={this.props.link}>{this.props.title}</a>
+						</Card.Title>
+						<Card.Text>({this.props.link})</Card.Text>
+					</Card.Body>
+					<Card.Footer>
+						{this.props.upvotes} points by {this.props.user} {this.props.timeStamp}{' '}
+						ago{' '}
+						<Link to={'/Comments/' + this.props.postID} post={this.props.postID}>
+							{this.props.comments} comments
+						</Link>
+					</Card.Footer>
+				</Card>
+			</React.Fragment>
+		)
 	}
 }
-
