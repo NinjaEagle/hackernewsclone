@@ -21,11 +21,17 @@ const {
     createPost,
     deletePost,
     editPost,
-    addCommentToPost
+    addCommentToPost,
+    editComment,
+    upvotePost,
+    upvoteComment
 } = require("./API/post")
 
 app.post("/createPost", createPost)
 app.delete("/deletePost/:post_id", deletePost)
 app.put("/editPost/:post_id", editPost)
-app.post("/addCommentToPost",addCommentToPost)
+app.post("/addCommentToPost", addCommentToPost)
+app.put("/editComment/Posts/:post_id/comments/:comment_id", editComment)
+app.put("/upvotePost/:post_id", upvotePost)
+app.put("/upvoteComment/Posts/:post_id/comments/:comment_id", upvoteComment)
 exports.api = functions.https.onRequest(app);
