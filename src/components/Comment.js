@@ -24,6 +24,7 @@ class Comment extends Component {
 		showModal: false,
 		redirect: false,
 		voted: false,
+		currentUpvotes: 0,
 	}
 
 	editComment = async (e) => {
@@ -50,7 +51,6 @@ class Comment extends Component {
 		let localID = this.props.postID
 		let commentID = this.props.commentID
 		let routeString = '/deleteComment/Posts/' + localID + '/comments/' + commentID
-		console.log(routeString)
 		const response = await backend.delete(routeString, {
 			body: JSON.stringify({
 				post_id: localID,
@@ -58,7 +58,6 @@ class Comment extends Component {
 			}),
 		})
 
-		console.log(response)
 		this.setState({ deleteConfirm: true })
 	}
 
@@ -75,9 +74,47 @@ class Comment extends Component {
 		let timestamp = date + ' ' + time
 		return timestamp
 	}
+	handleUpvote = async (e) => {
+		e.preventDefault()
+		if (this.props.context.isSignedIn) {
+			console.log('Clicked upvote for:')
+			console.log(this.props.postID)
+
+			let localID = this.props.postID
+			let commentID = this.props.commentID
+
+			let routeString =
+				'/upvoteComment/Posts/' + localID + '/comments/' + commentID
+			const response = await backend.put(routeString, {
+				body: JSON.stringify({
+					post_id: localID,
+					comment_id: commentID,
+				}),
+			})
+			console.log(response)
+			this.setState({ voted: true })
+			this.setState({ currentUpvotes: this.state.currentUpvotes + 1 })
+		}
+	}
+
+	downvote = async (e) => {
+		e.preventDefault()
+		let localID = this.props.postID
+		let routeString = '/upvoteComment/' + localID + '/1'
+		const response = await backend.put(routeString, {
+			body: JSON.stringify({
+				post_id: localID,
+			}),
+		})
+		console.log('downvote success')
+		console.log(response)
+		this.setState({ voted: false })
+		this.setState({ currentUpvotes: this.state.currentUpvotes - 1 })
+	}
 
 	render() {
 		console.log(this.state)
+		console.log(this.props)
 		if (this.state.redirect) {
 			return <Redirect push to='/' />
 		}
@@ -85,15 +122,25 @@ class Comment extends Component {
 		return (
 			<div>
 				<div className='boxes'>
-					<TriangleFill
-						onClick={this.handleUpvote}
-						size={16}
-						style={{ cursor: 'pointer' }}
-					/>
+					{!this.state.voted && (
+						<TriangleFill
+							style={{ backgroundColor: 'orange' }}
+							onClick={this.handleUpvote}
+							size={16}
+							style={{ cursor: 'pointer' }}
+						/>
+					)}
+					{this.state.voted && (
+						<Button size='small' onClick={this.downvote}>
+							unvote
+						</Button>
+					)}
+					{this.props.index}.
 					<p>
 						{this.props.user} commented at{' '}
 						{this.convertTimeStamp(this.props.timeStamp)} [-]
 					</p>
+					<p>{this.state.currentUpvotes} votes</p>
 					<p>
 						{this.props.context.userName === this.props.user && (
 							<Button
