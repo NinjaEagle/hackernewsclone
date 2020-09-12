@@ -1,4 +1,4 @@
-# HackerNewsClone: A clone of [Hacker News](https://news.ycombinator.com/)
+# HackerNewsClone: A react-bootstrap styled clone of [Hacker News](https://news.ycombinator.com/)
 
 A hackathon project for [Open Water Accelerator](https://openwatervc.com/)
 ## Host
