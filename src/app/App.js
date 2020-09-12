@@ -7,6 +7,7 @@ import Login from '../components/Login'
 import SignUp from '../components/Signup'
 import Comments from '../components/Comments'
 import CreatePost from '../components/CreatePost'
+import EditComment from '../components/EditComment'
 
 export default class App extends React.Component {
 	render() {
@@ -44,6 +45,11 @@ export default class App extends React.Component {
 											path='/CreatePost'
 											exact
 											render={(props) => <CreatePost {...props} {...context} />}
+										/>
+										<Route
+											path='/EditComment/:id'
+											exact
+											render={(props) => <EditComment {...props} {...context} />}
 										/>
 									</React.Fragment>
 								)

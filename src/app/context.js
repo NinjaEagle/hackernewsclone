@@ -8,6 +8,7 @@ class MyProvider extends React.Component {
 		userName: '',
 		user_id: '',
 		posts: [],
+		comment_id: '',
 		comments: [],
 		isSignedIn: false,
 		text: 'H',

@@ -22,6 +22,7 @@ export default class Timeline extends React.Component {
 
 	async componentDidMount() {
 		const response = await backend.get('/getPostList', {})
+
 		this.setState({ localPosts: response.data.posts })
 	}
 	componentWillUnmount() {
