@@ -8,6 +8,7 @@ import SignUp from '../components/Signup'
 import Comments from '../components/Comments'
 import CreatePost from '../components/CreatePost'
 import EditComment from '../components/EditComment'
+import Signout from '../components/Signout'
 
 export default class App extends React.Component {
 	render() {
@@ -50,6 +51,9 @@ export default class App extends React.Component {
 											path='/EditComment/:id'
 											exact
 											render={(props) => <EditComment {...props} {...context} />}
+											path='/Signout'
+											exact
+											render={(props) => <Signout {...props} {...context} />}
 										/>
 									</React.Fragment>
 								)

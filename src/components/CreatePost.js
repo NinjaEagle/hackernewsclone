@@ -43,7 +43,7 @@ export default class CreatePost extends React.Component {
 		//console.log(this.state.submitComplete);
 
 		if (this.state.submitComplete) {
-			return <Redirect push to='/LogIn' />
+			return <Redirect push to='/' />
 		}
 
 		return (
