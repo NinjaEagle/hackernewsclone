@@ -7,6 +7,7 @@ import Login from '../components/Login'
 import SignUp from '../components/Signup'
 import Comments from '../components/Comments'
 import CreatePost from '../components/CreatePost'
+import Signout from '../components/Signout'
 
 export default class App extends React.Component {
 	render() {
@@ -44,6 +45,11 @@ export default class App extends React.Component {
 											path='/CreatePost'
 											exact
 											render={(props) => <CreatePost {...props} {...context} />}
+										/>
+										<Route
+											path='/Signout'
+											exact
+											render={(props) => <Signout {...props} {...context} />}
 										/>
 									</React.Fragment>
 								)

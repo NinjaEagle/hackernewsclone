@@ -22,10 +22,11 @@ export default class Post extends Component {
 		showModal: false,
 	}
 
-	handleUpvote = (e) => {
+	handleUpvote = async (e) => {
 		e.preventDefault()
 		if (this.props.context.isSignedIn) {
-			document.querySelector()
+			console.log("Clicked upvote for:");
+			console.log(this.props.postID);
 		}
 	}
 
@@ -67,7 +68,7 @@ export default class Post extends Component {
 					</Card.Body>
 					<Card.Footer>
 						{this.props.upvotes} points by {this.props.user} posted on{' '}
-						{this.props.timeStamp} |{' '}
+						{this.props.timeStamp} PST |{' '}
 						<Link to={'/Comments/' + this.props.postID} post={this.props.postID}>
 							{this.props.comments} comments{' '}
 						</Link>

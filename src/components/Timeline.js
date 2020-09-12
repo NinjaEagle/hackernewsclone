@@ -4,13 +4,14 @@ import Post from './Post'
 import { Button } from 'react-bootstrap'
 import { Redirect } from 'react-router-dom'
 import backend from '../api/backend'
+import dayjs from 'dayjs'
 
 export default class Timeline extends React.Component {
 	state = {
 		index: 0,
 		text: '',
 		isSignedIn: false,
-		localPosts: this.props.context.posts,
+		localPosts: [],
 		createPost: false,
 	}
 	handleUpvote = (e) => {
@@ -22,21 +23,32 @@ export default class Timeline extends React.Component {
 
 	async componentDidMount() {
 		const response = await backend.get('/getPostList', {})
-		this.setState({ localPosts: response.data.posts })
+
+		this.setState({ localPosts: response.data.posts.reverse() })
 	}
 	componentWillUnmount() {
 		this.props.context.initPosts(this.state.localPosts)
 	}
 
-	convertTimeStamp() {}
+	convertTimeStamp(stamp) 
+	{
+		let temp = new Date(stamp);
+		let date = temp.getFullYear()+'-'+(temp.getMonth()+1)+'-'+temp.getDate();
+		let time = temp.getHours() + ":" + temp.getMinutes() + ":" + temp.getSeconds();
+		let timestamp = date+' '+time;
+		return timestamp;
+	}
 
 	renderPosts() {
 		const { context } = this.props
+
+
 
 		if (this.state.createPost) {
 			return <Redirect push to='/CreatePost' />
 		}
 
+		if(this.state.localPosts) {
 		return (
 			<div className='timeline'>
 				<div style={{ marginTop: '20px' }}>
@@ -57,13 +69,14 @@ export default class Timeline extends React.Component {
 							link={p.link}
 							upvotes={p.upvotes}
 							user={p.username}
-							timeStamp={p.timestamp}
+							//timeStamp={p.timeStamp}
+							timeStamp={this.convertTimeStamp(p.createdAt)}
 							comments={p.comments}
 							index={this.state.localPosts.indexOf(p) + 1}
 							context={context}
 						/>
 					</div>
-				))}
+				))} 
 
 				<div className='downArrow bounce'>
 					<img
@@ -74,7 +87,7 @@ export default class Timeline extends React.Component {
 					/>
 				</div>
 			</div>
-		)
+		); }
 	}
 
 	render() {
