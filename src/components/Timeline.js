@@ -19,8 +19,14 @@ export default class Timeline extends React.Component {
 
 	async componentDidMount() {
 		const response = await backend.get('/getPostList', {})
+
 		let tempPosts = response.data.posts
-		this.setState({ localPosts: response.data.posts.reverse() })
+		tempPosts.sort((a, b) =>
+			this.convertTimeStamp(a.createdAt) < this.convertTimeStamp(b.createdAt)
+				? 1
+				: -1
+		)
+		this.setState({ localPosts: tempPosts })
 	}
 	componentWillUnmount() {
 		this.props.context.initPosts(this.state.localPosts)
