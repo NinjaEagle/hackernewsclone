@@ -4,7 +4,7 @@ A hackathon project for [Open Water Accelerator](https://openwatervc.com/)
 ## Hosts
 Our site is hosted here [ADD LINK](https://news.ycombinator.com/)
 
-While our backend is hosted on [Google Firebase](https://firebase.google.com/)
+All data is kept on an instance of [Google Firebase](https://firebase.google.com/)
 
 ## Scripts on how to run this repository locally
 
