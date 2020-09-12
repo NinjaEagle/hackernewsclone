@@ -73,15 +73,6 @@ export default class Post extends Component {
 			console.log(this.props.postID)
 		}
 	}
-	async componentDidMount() {
-		const response = await backend.get(
-			`/getCommentList/post/${this.props.postID}`,
-			{}
-		)
-
-		console.log(response)
-		this.setState({ postNumber: response.data.comments.length })
-	}
 
 	savePost = (event) => {
 		event.preventDefault()
@@ -161,7 +152,7 @@ export default class Post extends Component {
 						{this.props.upvotes} points by {this.props.user} posted on{' '}
 						{this.props.timeStamp} PST |{' '}
 						<Link to={'/Comments/' + this.props.postID} post={this.props.postID}>
-							{this.state.postNumber} comments{' '}
+							{this.props.comments} comments{' '}
 						</Link>
 						{this.props.context.userName === this.props.user && (
 							<Button

@@ -51,6 +51,8 @@ export default class App extends React.Component {
 											path='/EditComment/:id'
 											exact
 											render={(props) => <EditComment {...props} {...context} />}
+											/>
+										<Route
 											path='/Signout'
 											exact
 											render={(props) => <Signout {...props} {...context} />}

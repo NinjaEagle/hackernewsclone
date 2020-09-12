@@ -77,6 +77,7 @@ export default class Timeline extends React.Component {
 							/>
 						</div>
 					))}
+
 					<div className='downArrow bounce'>
 						<img
 							width='40'
