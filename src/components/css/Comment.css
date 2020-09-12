@@ -13,6 +13,7 @@
 	margin-top: 10px;
 	margin-right: 20px;
 	background-color: #f6f6ef;
+	color: black;
 }
 .boxes {
 	margin-bottom: 10px;
@@ -21,4 +22,10 @@
 	height: 80px;
 	width: 40%;
 	margin-bottom: 10px;
+}
+
+h1,
+h2,
+h3 {
+	color: black;
 }
