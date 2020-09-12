@@ -2,7 +2,7 @@
 
 A team bonding project for [Open Water Accelerator](https://openwatervc.com/)
 ## Hosts
-Our site is hosted here [ADD LINK](https://news.ycombinator.com/)
+Our site is hosted here [https://michigan-hackernewsclone.netlify.app/](https://michigan-hackernewsclone.netlify.app/)
 
 All data is kept on an instance of [Google Firebase](https://firebase.google.com/)
 
