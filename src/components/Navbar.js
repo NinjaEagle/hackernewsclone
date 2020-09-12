@@ -4,7 +4,8 @@ import './css/navbar.css'
 
 class Navbar extends Component {
 	render() {
-		if (this.props.context.isSignedIn) {
+
+		if (this.props.context.isSignedIn==="true") {
 			return (
 				<div className='navBar-comp'>
 					<div className='tabBox-main'>
@@ -24,11 +25,11 @@ class Navbar extends Component {
 								</Link>
 							</div>
 							<div className='tabBox'>
-								<Link to='/' state={'Signout'}>
-									<h3 className='TabLabel' label='Signout'>
-										Signout
+							<Link to='/Signout' state={'Signout'}>
+									<h3 className='TabLabel' label='Profile'>
+										Sign out
 									</h3>
-								</Link>
+							</Link>
 							</div>
 						</div>
 					</div>

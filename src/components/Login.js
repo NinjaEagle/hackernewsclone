@@ -40,12 +40,11 @@ export default class LogIn extends React.Component {
 				password: this.state.password,
 			}),
 		})
-		console.log(response)
 
 		if (this._isMounted) {
 			this.props.context.updateUser_id(response.data.user_id)
 			this.props.context.updateUsername(this.state.userName)
-			this.props.context.updateIsSignedIn(true)
+			this.props.context.updateIsSignedIn("true")
 			this.setState({ showModal: true })
 		}
 	}
@@ -107,7 +106,7 @@ export default class LogIn extends React.Component {
 				</Card>
 
 				<Modal
-					show={this.state.showModal}
+					show={this.state.showModal} backdrop="static"
 					onHide={() => this.setState({ showModal: false })}>
 					<Modal.Header closeButton>
 						<Modal.Title>Logged In Sucessfully</Modal.Title>

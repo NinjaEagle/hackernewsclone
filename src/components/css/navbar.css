@@ -17,9 +17,7 @@
 	flex-direction: row;
 	justify-content: space-between;
 }
-
 .tabContainerBox {
-	color: white;
 	border-radius: 0%;
 	top: 0;
 }
@@ -49,6 +47,7 @@
 	text-align: center;
 }
 .TabLabel {
+	color: white;
 	margin-left: 5px;
 	text-decoration: none;
 	word-spacing: 0.25px;

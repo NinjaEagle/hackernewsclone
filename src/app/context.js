@@ -5,62 +5,59 @@ const AppContext = React.createContext()
 class MyProvider extends React.Component {
 	state = {
 		// context variables
-		userName: '',
-		user_id: '',
-		posts: [],
-		comments: [],
-		isSignedIn: false,
-		text: 'H',
+		userName: sessionStorage.getItem("userName"),
+		user_id: sessionStorage.getItem("user_id"),
+		posts: sessionStorage.getItem("posts"),
+		comments: sessionStorage.getItem("comments"),
+		currentPost: sessionStorage.getItem("currentPost"),
+		isSignedIn: sessionStorage.getItem("isSignedIn"),
+		text: sessionStorage.getItem("isSignedIn"),
 
 		// need to bind functions to keep simple syntax
 		updateText: (text) => this.updateText(text),
-
 		initPosts: (initPosts) => this.initPosts(initPosts),
-
 		updateUser_id: (user_id) => this.updateUser_id(user_id),
-
 		updateUsername: (userName) => this.updateUsername(userName),
 		updatePosts: (posts) => this.updatePosts(posts),
 		updateIsSignedIn: (isSignedIn) => this.updateIsSignedIn(isSignedIn),
 		newComment: (comment) => this.newComment(comment),
+
+		updateCurrentPost: (currentPost) => this.updateCurrentPost(currentPost),
 	}
 
-	// function defintions down here
-	newComment(comment) {
-		// if(!this.state.comments.includes(comment)){
-		// 	const response = await backend.post('/addCommentToPost', {
-		// 		body: JSON.stringify({
-		// 			post_id: comment.post
-		// 			username: this.state.userName.toLowerCase(),
-		// 			password: this.state.password,
-		// 		}),
-		// 	})
-		// }
-		this.setState({ comments: [comment, ...this.state.comments] })
+	updateCurrentPost (cPost) {
+		sessionStorage.setItem("currentPost", JSON.stringify(cPost));
+		this.setState({ currentPost: cPost });
 	}
 
 	initPosts(initPosts) {
-		this.setState({ posts: initPosts })
+		sessionStorage.setItem("posts", JSON.stringify(initPosts));
+		this.setState({ posts: initPosts });
 	}
 
 	updateText(text) {
-		this.setState({ text })
+		sessionStorage.setItem("text", text);
+		this.setState({ text });
 	}
 
 	updateUser_id(user_id) {
+		sessionStorage.setItem("user_id", user_id);
 		this.setState({ user_id })
 	}
 
 	updateUsername(userName) {
+		sessionStorage.setItem("userName", userName);
 		this.setState({ userName })
 	}
 
 	updatePosts(addPosts) {
+		sessionStorage.setItem("addPosts", JSON.stringify([...this.state.posts, addPosts]));
 		this.setState({ posts: [...this.state.posts, addPosts] })
-		console.log(this.state.posts)
 	}
 
+
 	updateIsSignedIn(isSignedIn) {
+		sessionStorage.setItem("isSignedIn", isSignedIn);
 		this.setState({ isSignedIn })
 	}
 
