@@ -3,7 +3,7 @@ import './css/Comment.css'
 import backend from '../api/backend'
 import Comment from './Comment.js'
 import { Modal, Button } from 'react-bootstrap'
-import {Redirect} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 export default class Comments extends Component {
 	state = {
@@ -69,7 +69,7 @@ export default class Comments extends Component {
 	render() {
 		console.log(this.state)
 		let post = this.state.localPosts.filter((post) => {
-			return post.post_id == this.props.match.params.id
+			return post.post_id === this.props.match.params.id
 		})
 		const { context } = this.props
 
@@ -110,7 +110,8 @@ export default class Comments extends Component {
 					</div>
 				))}
 
-				<Modal backdrop="static"
+				<Modal
+					backdrop='static'
 					show={this.state.showModal}
 					onHide={() => this.setState({ showModal: false })}>
 					<Modal.Header closeButton>
@@ -120,8 +121,8 @@ export default class Comments extends Component {
 					<Modal.Footer>
 						<Button
 							variant='primary'
-							 onClick={() => {
-								this.setState({submitComplete: true})
+							onClick={() => {
+								this.setState({ submitComplete: true })
 							}}>
 							Continue
 						</Button>

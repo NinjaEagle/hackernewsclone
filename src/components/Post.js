@@ -1,11 +1,17 @@
 import React, { Component } from 'react'
-import { Button, Card, Modal, FormGroup, FormLabel,FormControl, InputGroup } from 'react-bootstrap'
+import {
+	Button,
+	Card,
+	Modal,
+	FormGroup,
+	FormLabel,
+	FormControl,
+	InputGroup,
+} from 'react-bootstrap'
 import './css/Timeline.scss'
 import { Link, Redirect } from 'react-router-dom'
 import { TriangleFill } from 'react-bootstrap-icons'
 import backend from '../api/backend'
-
-
 
 /*
         // -- PROPS THAT SHOULD BE PASSED TO POST	--//
@@ -20,9 +26,8 @@ import backend from '../api/backend'
 */
 
 export default class Post extends Component {
-
 	constructor(props) {
-		super(props);
+		super(props)
 		this.state = {
 			userPosted: false,
 			showModal: false,
@@ -50,82 +55,77 @@ export default class Post extends Component {
 	}
 
 	async componentDidMount() {
-		let localID = this.props.postID;
-		let routeString = '/getCommentList/post/' + localID;
-		const response = await backend.get(routeString, {});
-		
+		let localID = this.props.postID
+		let routeString = '/getCommentList/post/' + localID
+		const response = await backend.get(routeString, {})
 
-		this._isMounted = true;
-		this.setState({numComments: response.data.comments.length})
-		this.setState({title: this.props.title})
-		this.setState({url: this.props.link})
-		this.setState({description: this.props.description})
-		this.setState({currentUpvotes: this.props.upvotes})
+		this._isMounted = true
+		this.setState({ numComments: response.data.comments.length })
+		this.setState({ title: this.props.title })
+		this.setState({ url: this.props.link })
+		this.setState({ description: this.props.description })
+		this.setState({ currentUpvotes: this.props.upvotes })
 	}
 
 	componentWillUnmount() {
 		this._isMounted = false
-	
 	}
 
 	handleUpvote = async (e) => {
 		e.preventDefault()
 		if (this.props.context.isSignedIn) {
-			console.log("Clicked upvote for:");
-			console.log(this.props.postID);
-			
+			console.log('Clicked upvote for:')
+			console.log(this.props.postID)
 
-
-			let localID = this.props.postID;
-			let routeString = '/upvotePost/'+ localID + '/0';
+			let localID = this.props.postID
+			let routeString = '/upvotePost/' + localID + '/0'
 			const response = await backend.put(routeString, {
 				body: JSON.stringify({
-					post_id: localID
+					post_id: localID,
 				}),
 			})
-			console.log(response);
-			this.setState({voted: true})
-			this.setState({currentUpvotes: this.state.currentUpvotes+1})
+			console.log(response)
+			this.setState({ voted: true })
+			this.setState({ currentUpvotes: this.state.currentUpvotes + 1 })
 		}
 	}
 
 	downvote = async (e) => {
-		e.preventDefault();
-		let localID = this.props.postID;
+		e.preventDefault()
+		let localID = this.props.postID
 		let routeString = '/upvotePost/' + localID + '/1'
 		const response = await backend.put(routeString, {
 			body: JSON.stringify({
-				post_id: localID
+				post_id: localID,
 			}),
 		})
-		console.log("downvote success");
-		console.log(response);
-		this.setState({voted: false})
-		this.setState({currentUpvotes: this.state.currentUpvotes-1})
+		console.log('downvote success')
+		console.log(response)
+		this.setState({ voted: false })
+		this.setState({ currentUpvotes: this.state.currentUpvotes - 1 })
 	}
 
-	savePost = event => {
-		event.preventDefault();
-
+	savePost = (event) => {
+		event.preventDefault()
 	}
 
-	deletePost = async event => {
-		event.preventDefault();
-		let localID = this.props.postID;
-		let routeString = '/deletePost/' + localID;
+	deletePost = async (event) => {
+		event.preventDefault()
+		let localID = this.props.postID
+		let routeString = '/deletePost/' + localID
 		const response = await backend.delete(routeString, {
 			body: JSON.stringify({
-				post_id: localID
+				post_id: localID,
 			}),
 		})
-		console.log(response.data);
-		this.setState({deleteConfirm: true});
-	} 
+		console.log(response.data)
+		this.setState({ deleteConfirm: true })
+	}
 
-	editPost = async event => {
-		event.preventDefault();
-		let localID = this.props.postID;
-		let routeString = '/editPost/' + localID;
+	editPost = async (event) => {
+		event.preventDefault()
+		let localID = this.props.postID
+		let routeString = '/editPost/' + localID
 		const response = await backend.put(routeString, {
 			body: JSON.stringify({
 				title: this.state.title,
@@ -136,20 +136,17 @@ export default class Post extends Component {
 			}),
 		})
 
-		console.log(response.data.message);
-		this.setState({showModal: false});
-		this.setState({showConfirm: true});
+		console.log(response.data.message)
+		this.setState({ showModal: false })
+		this.setState({ showConfirm: true })
 	}
 
-	updatePage = event => {
-		this.setState({showConfirm: false});
-		this.forceUpdate();
+	updatePage = (event) => {
+		this.setState({ showConfirm: false })
+		this.forceUpdate()
 	}
-
-
 
 	render() {
-
 		if (this.state.redirect) {
 			return <Redirect push to='/Profil' />
 		}
@@ -158,14 +155,19 @@ export default class Post extends Component {
 			<React.Fragment>
 				<Card className='posts'>
 					<Card.Header>
-
-                       {!this.state.voted && 
-						<TriangleFill
-							onClick={this.handleUpvote}
-							size={16}
-							style={{ cursor: 'pointer' }}
-						/>}
-						{this.state.voted && <Button size="small" onClick={this.downvote}>unvote</Button>}
+						{!this.state.voted && (
+							<TriangleFill
+								style={{ backgroundColor: 'orange' }}
+								onClick={this.handleUpvote}
+								size={16}
+								style={{ cursor: 'pointer' }}
+							/>
+						)}
+						{this.state.voted && (
+							<Button size='small' onClick={this.downvote}>
+								unvote
+							</Button>
+						)}
 						{this.props.index}.
 					</Card.Header>
 					<Card.Body className='postcards'>
@@ -180,28 +182,38 @@ export default class Post extends Component {
 						<Link to={'/Comments/' + this.props.postID} post={this.props.postID}>
 							{this.state.numComments} comments{' '}
 						</Link>
-					{this.props.context.userName===this.props.user && 
-					<Button onClick={()=>{this.setState({showModal: true})}}
-					variant="primary">Edit 
-					</Button>
-					}
-					&nbsp;
-				  {this.props.context.userName===this.props.user && 
-					<Button onClick={()=>{this.setState({showDelete: true})}}
-					variant="primary">Delete </Button> 
-					}
+						{this.props.context.userName === this.props.user && (
+							<Button
+								onClick={() => {
+									this.setState({ showModal: true })
+								}}
+								variant='primary'>
+								Edit
+							</Button>
+						)}
+						&nbsp;
+						{this.props.context.userName === this.props.user && (
+							<Button
+								onClick={() => {
+									this.setState({ showDelete: true })
+								}}
+								variant='primary'>
+								Delete{' '}
+							</Button>
+						)}
 					</Card.Footer>
 				</Card>
 
-				<Modal backdrop="static"
+				<Modal
+					backdrop='static'
 					show={this.state.showModal}
 					onHide={() => this.setState({ showModal: false })}>
 					<Modal.Header closeButton>
 						<Modal.Title>You are editing: {this.props.title}</Modal.Title>
 					</Modal.Header>
 					<form onSubmit={this.editPost}>
-					<Modal.Body>
-						<FormGroup controlId='title'>
+						<Modal.Body>
+							<FormGroup controlId='title'>
 								<FormLabel style={{ color: 'white' }}>Title</FormLabel>
 								<FormControl
 									autoFocus
@@ -232,44 +244,38 @@ export default class Post extends Component {
 									onChange={(e) => this.setState({ description: e.target.value })}
 								/>
 							</InputGroup>
-					</Modal.Body>
-					<Modal.Footer>
-						<Button
-							variant='primary'
-							type="submit"
-							>
-							Continue
-						</Button>
-					</Modal.Footer>
+						</Modal.Body>
+						<Modal.Footer>
+							<Button variant='primary' type='submit'>
+								Continue
+							</Button>
+						</Modal.Footer>
 					</form>
 				</Modal>
 
-				
 				<Modal
-					show={this.state.showDelete} backdrop="static"
+					show={this.state.showDelete}
+					backdrop='static'
 					onHide={() => this.setState({ showDelete: false })}>
 					<Modal.Header closeButton>
-						<Modal.Title>Edit Successful!</Modal.Title>
+						<Modal.Title>Delete Successful!</Modal.Title>
 					</Modal.Header>
-					<Modal.Body>
-						Do you want to delete '{this.state.title}'?
-					</Modal.Body>
+					<Modal.Body>Do you want to delete '{this.state.title}'?</Modal.Body>
 					<Modal.Footer>
-						<Button
-							variant='primary'
-							onClick={this.deletePost}>
+						<Button variant='primary' onClick={this.deletePost}>
 							Yes
 						</Button>
 						<Button
 							variant='danger'
-							onClick={()=>this.setState({showDelete: false})}>
+							onClick={() => this.setState({ showDelete: false })}>
 							No
 						</Button>
 					</Modal.Footer>
 				</Modal>
 
 				<Modal
-					show={this.state.showConfirm} backdrop="static"
+					show={this.state.showConfirm}
+					backdrop='static'
 					onHide={() => this.setState({ showConfirm: false })}>
 					<Modal.Header closeButton>
 						<Modal.Title>Edit Successful!</Modal.Title>
@@ -278,32 +284,33 @@ export default class Post extends Component {
 						Your post '{this.state.title}' was successfully edited
 					</Modal.Body>
 					<Modal.Footer>
-						<Button
-							variant='primary'
-							onClick={this.updatePage}>
+						<Button variant='primary' onClick={this.updatePage}>
 							Continue
 						</Button>
 					</Modal.Footer>
 				</Modal>
 
 				<Modal
-				show={this.state.deleteConfirm} backdrop="static"
-				onHide={() => this.setState({ deleteConfirm: false })}>
-				<Modal.Header closeButton>
-					<Modal.Title>Delete Successful!</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-					Your post '{this.state.title}' was successfully delted
-				</Modal.Body>
-				<Modal.Footer>
-					<Button
-						variant='primary'
-						onClick={()=>{this.setState({redirect: true})}}>
-						Continue
-					</Button>
-				</Modal.Footer>
-			</Modal>
-		</React.Fragment>
+					show={this.state.deleteConfirm}
+					backdrop='static'
+					onHide={() => this.setState({ deleteConfirm: false })}>
+					<Modal.Header closeButton>
+						<Modal.Title>Delete Successful!</Modal.Title>
+					</Modal.Header>
+					<Modal.Body>
+						Your post '{this.state.title}' was successfully delted
+					</Modal.Body>
+					<Modal.Footer>
+						<Button
+							variant='primary'
+							onClick={() => {
+								this.setState({ redirect: true })
+							}}>
+							Continue
+						</Button>
+					</Modal.Footer>
+				</Modal>
+			</React.Fragment>
 		)
 	}
 }
