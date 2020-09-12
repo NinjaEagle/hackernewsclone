@@ -81,26 +81,6 @@ class Comment extends Component {
 		if (this.state.redirect) {
 			return <Redirect push to='/' />
 		}
-		{
-			!this.state.voted && (
-				<TriangleFill
-					style={{ backgroundColor: 'orange' }}
-					onClick={this.handleUpvote}
-					size={16}
-					style={{ cursor: 'pointer' }}
-				/>
-			)
-		}
-		{
-			this.state.voted && (
-				<Button size='small' onClick={this.downvote}>
-					unvote
-				</Button>
-			)
-		}
-		{
-			this.props.index
-		}
 
 		return (
 			<div>
