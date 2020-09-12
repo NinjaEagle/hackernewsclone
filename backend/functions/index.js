@@ -24,20 +24,22 @@ app.get('/getCommentList/post/:post_id', getCommentList)
 app.post('/getUserProfile', getUserProfile)
 
 const {
-	createPost,
-	deletePost,
-	editPost,
-	addCommentToPost,
-	editComment,
-	upvotePost,
-	upvoteComment,
-} = require('./API/post')
+    createPost,
+    deletePost,
+    editPost,
+    addCommentToPost,
+    editComment,
+    upvotePost,
+    upvoteComment,
+    deleteComment
+} = require("./API/post")
 
-app.post('/createPost', createPost)
-app.delete('/deletePost/:post_id', deletePost)
-app.put('/editPost/:post_id', editPost)
-app.post('/addCommentToPost', addCommentToPost)
-app.put('/editComment/Posts/:post_id/comments/:comment_id', editComment)
-app.put('/upvotePost/:post_id', upvotePost)
-app.put('/upvoteComment/Posts/:post_id/comments/:comment_id', upvoteComment)
-exports.api = functions.https.onRequest(app)
+app.post("/createPost", createPost)
+app.delete("/deletePost/:post_id", deletePost)
+app.put("/editPost/:post_id", editPost)
+app.post("/addCommentToPost", addCommentToPost)
+app.put("/editComment/Posts/:post_id/comments/:comment_id", editComment)
+app.put("/upvotePost/:post_id/:isDownVote", upvotePost)
+app.put("/upvoteComment/Posts/:post_id/comments/:comment_id", upvoteComment)
+app.delete("/deleteComment/Posts/:post_id/comments/:comment_id", deleteComment)
+exports.api = functions.https.onRequest(app);

@@ -47,6 +47,8 @@ export default class Post extends Component {
 			redirect: false,
 
 			numComments: 0,
+			currentUpvotes: 0,
+			voted: false,
 		}
 
 		this._isMounted = false
@@ -62,6 +64,7 @@ export default class Post extends Component {
 		this.setState({ title: this.props.title })
 		this.setState({ url: this.props.link })
 		this.setState({ description: this.props.description })
+		this.setState({ currentUpvotes: this.props.upvotes })
 	}
 
 	componentWillUnmount() {
@@ -73,7 +76,33 @@ export default class Post extends Component {
 		if (this.props.context.isSignedIn) {
 			console.log('Clicked upvote for:')
 			console.log(this.props.postID)
+
+			let localID = this.props.postID
+			let routeString = '/upvotePost/' + localID + '/0'
+			const response = await backend.put(routeString, {
+				body: JSON.stringify({
+					post_id: localID,
+				}),
+			})
+			console.log(response)
+			this.setState({ voted: true })
+			this.setState({ currentUpvotes: this.state.currentUpvotes + 1 })
 		}
+	}
+
+	downvote = async (e) => {
+		e.preventDefault()
+		let localID = this.props.postID
+		let routeString = '/upvotePost/' + localID + '/1'
+		const response = await backend.put(routeString, {
+			body: JSON.stringify({
+				post_id: localID,
+			}),
+		})
+		console.log('downvote success')
+		console.log(response)
+		this.setState({ voted: false })
+		this.setState({ currentUpvotes: this.state.currentUpvotes - 1 })
 	}
 
 	savePost = (event) => {
@@ -119,18 +148,26 @@ export default class Post extends Component {
 
 	render() {
 		if (this.state.redirect) {
-			return <Redirect push to='/Profile' />
+			return <Redirect push to='/Profil' />
 		}
 
 		return (
 			<React.Fragment>
 				<Card className='posts'>
 					<Card.Header>
-						<TriangleFill
-							onClick={this.handleUpvote}
-							size={16}
-							style={{ cursor: 'pointer' }}
-						/>
+						{!this.state.voted && (
+							<TriangleFill
+								style={{ backgroundColor: 'orange' }}
+								onClick={this.handleUpvote}
+								size={16}
+								style={{ cursor: 'pointer' }}
+							/>
+						)}
+						{this.state.voted && (
+							<Button size='small' onClick={this.downvote}>
+								unvote
+							</Button>
+						)}
 						{this.props.index}.
 					</Card.Header>
 					<Card.Body className='postcards'>
@@ -140,7 +177,7 @@ export default class Post extends Component {
 						<Card.Text>({this.props.link})</Card.Text>
 					</Card.Body>
 					<Card.Footer>
-						{this.props.upvotes} points by {this.props.user} posted on{' '}
+						{this.state.currentUpvotes} points by {this.props.user} posted on{' '}
 						{this.props.timeStamp} PST |{' '}
 						<Link to={'/Comments/' + this.props.postID} post={this.props.postID}>
 							{this.state.numComments} comments{' '}
