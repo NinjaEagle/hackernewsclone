@@ -53,12 +53,13 @@ export default class Timeline extends React.Component {
 				<div style={{ marginTop: '20px' }}>
 					Welcome {this.props.context.userName}!
 					<br />
+					{this.props.context.isSignedIn==="true" &&
 					<Button
 						variant='primary'
 						style={{ background: '#449955' }}
 						onClick={() => this.setState({ createPost: true })}>
 						Submit a Post
-					</Button>
+					</Button>}
 				</div>
 				{this.state.localPosts.map((p) => (
 					<div key={p.post_id}>
