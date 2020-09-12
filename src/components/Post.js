@@ -161,7 +161,6 @@ export default class Post extends Component {
 
                        {!this.state.voted && 
 						<TriangleFill
-						    style={{backgroundColor: 'orange'}}
 							onClick={this.handleUpvote}
 							size={16}
 							style={{ cursor: 'pointer' }}
