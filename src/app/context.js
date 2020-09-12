@@ -9,6 +9,7 @@ class MyProvider extends React.Component {
 		user_id: sessionStorage.getItem("user_id"),
 		posts: sessionStorage.getItem("posts"),
 		comments: sessionStorage.getItem("comments"),
+		currentPost: sessionStorage.getItem("currentPost"),
 		isSignedIn: sessionStorage.getItem("isSignedIn"),
 		text: sessionStorage.getItem("isSignedIn"),
 
@@ -20,6 +21,13 @@ class MyProvider extends React.Component {
 		updatePosts: (posts) => this.updatePosts(posts),
 		updateIsSignedIn: (isSignedIn) => this.updateIsSignedIn(isSignedIn),
 		newComment: (comment) => this.newComment(comment),
+
+		updateCurrentPost: (currentPost) => this.updateCurrentPost(currentPost),
+	}
+
+	updateCurrentPost (cPost) {
+		sessionStorage.setItem("currentPost", JSON.stringify(cPost));
+		this.setState({ currentPost: cPost });
 	}
 
 	initPosts(initPosts) {
@@ -46,6 +54,7 @@ class MyProvider extends React.Component {
 		sessionStorage.setItem("addPosts", JSON.stringify([...this.state.posts, addPosts]));
 		this.setState({ posts: [...this.state.posts, addPosts] })
 	}
+
 
 	updateIsSignedIn(isSignedIn) {
 		sessionStorage.setItem("isSignedIn", isSignedIn);

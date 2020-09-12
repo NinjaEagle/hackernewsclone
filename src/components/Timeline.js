@@ -4,7 +4,6 @@ import Post from './Post'
 import { Button } from 'react-bootstrap'
 import { Redirect } from 'react-router-dom'
 import backend from '../api/backend'
-import dayjs from 'dayjs'
 
 export default class Timeline extends React.Component {
 	state = {
@@ -74,6 +73,7 @@ export default class Timeline extends React.Component {
 							comments={p.comments}
 							index={this.state.localPosts.indexOf(p) + 1}
 							context={context}
+							description={p.description}
 						/>
 					</div>
 				))} 
@@ -91,7 +91,6 @@ export default class Timeline extends React.Component {
 	}
 
 	render() {
-		console.log(this.state.localPosts)
 		return <div>{this.renderPosts()}</div>
 	}
 }

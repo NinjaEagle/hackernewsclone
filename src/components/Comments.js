@@ -53,7 +53,7 @@ export default class Comments extends Component {
 
 	render() {
 		let post = this.state.localPosts.filter((post) => {
-			return post.post_id == this.props.match.params.id
+			return post.post_id === this.props.match.params.id
 		})
 		console.log(post)
 

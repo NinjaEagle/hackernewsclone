@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Link, Redirect } from 'react-router-dom'
-import {Modal, Button} from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import './css/navbar.css'
 
 class Navbar extends Component {
