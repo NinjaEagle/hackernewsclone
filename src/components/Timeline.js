@@ -45,35 +45,20 @@ export default class Timeline extends React.Component {
 			return <Redirect push to='/CreatePost' />
 		}
 
-		if(this.state.localPosts) {
-		return (
-			<div className='timeline'>
-				<div style={{ marginTop: '20px' }}>
-					Welcome {this.props.context.userName}!
-					<br />
-					{this.props.context.isSignedIn==="true" &&
-					<Button
-						variant='primary'
-						style={{ background: '#449955' }}
-						onClick={() => this.setState({ createPost: true })}>
-						Submit a Post
-					</Button>}
-				</div>
-				{this.state.localPosts.map((p) => (
-					<div key={p.post_id}>
-						<Post
-							postID={p.post_id}
-							title={p.title}
-							link={p.link}
-							upvotes={p.upvotes}
-							user={p.username}
-							//timeStamp={p.timeStamp}
-							timeStamp={this.convertTimeStamp(p.createdAt)}
-							comments={p.comments}
-							index={this.state.localPosts.indexOf(p) + 1}
-							context={context}
-							description={p.description}
-						/>
+		if (this.state.localPosts) {
+			return (
+				<div className='timeline'>
+					<div style={{ marginTop: '20px' }}>
+						Welcome {this.props.context.userName}!
+						<br />
+						{this.props.context.isSignedIn === 'true' && (
+							<Button
+								variant='primary'
+								style={{ background: '#449955' }}
+								onClick={() => this.setState({ createPost: true })}>
+								Submit a Post
+							</Button>
+						)}
 					</div>
 					{this.state.localPosts.map((p) => (
 						<div key={p.post_id}>
@@ -88,10 +73,10 @@ export default class Timeline extends React.Component {
 								comments={p.comments}
 								index={this.state.localPosts.indexOf(p) + 1}
 								context={context}
+								description={p.description}
 							/>
 						</div>
 					))}
-
 					<div className='downArrow bounce'>
 						<img
 							width='40'
