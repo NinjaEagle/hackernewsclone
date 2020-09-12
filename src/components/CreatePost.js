@@ -37,8 +37,6 @@ export default class CreatePost extends React.Component {
 				username: this.props.context.userName,
 			}),
 		})
-		console.log(response)
-		console.log(response.data.message)
 		if (response.data.message) {
 			this.setState({ errorMessage: response.data.message })
 			this.setState({ dupeFound: true })
@@ -54,8 +52,6 @@ export default class CreatePost extends React.Component {
 	}
 
 	render() {
-		//console.log(this.state.submitComplete);
-
 		if (this.state.submitComplete) {
 			return <Redirect push to='/' />
 		}
