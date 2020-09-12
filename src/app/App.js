@@ -9,7 +9,6 @@ import Comments from '../components/Comments'
 import CreatePost from '../components/CreatePost'
 import EditComment from '../components/EditComment'
 import Signout from '../components/Signout'
-import { Router } from 'express'
 
 export default class App extends React.Component {
 	render() {
