@@ -221,7 +221,7 @@ export default class Post extends Component {
 					backdrop='static'
 					onHide={() => this.setState({ showDelete: false })}>
 					<Modal.Header closeButton>
-						<Modal.Title>Edit Successful!</Modal.Title>
+						<Modal.Title>Delete Successful!</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>Do you want to delete '{this.state.title}'?</Modal.Body>
 					<Modal.Footer>
