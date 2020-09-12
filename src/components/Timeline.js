@@ -16,9 +16,6 @@ export default class Timeline extends React.Component {
 	handleUpvote = (e) => {
 		e.preventDefault()
 	}
-	handleLink = (link) => {
-		console.log(link)
-	}
 
 	async componentDidMount() {
 		const response = await backend.get('/getPostList', {})

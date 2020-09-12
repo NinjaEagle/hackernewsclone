@@ -74,9 +74,6 @@ export default class Post extends Component {
 	handleUpvote = async (e) => {
 		e.preventDefault()
 		if (this.props.context.isSignedIn) {
-			console.log('Clicked upvote for:')
-			console.log(this.props.postID)
-
 			let localID = this.props.postID
 			let routeString = '/upvotePost/' + localID + '/0'
 			const response = await backend.put(routeString, {
@@ -84,7 +81,6 @@ export default class Post extends Component {
 					post_id: localID,
 				}),
 			})
-			console.log(response)
 			this.setState({ voted: true })
 			this.setState({ currentUpvotes: this.state.currentUpvotes + 1 })
 		}
@@ -99,8 +95,6 @@ export default class Post extends Component {
 				post_id: localID,
 			}),
 		})
-		console.log('downvote success')
-		console.log(response)
 		this.setState({ voted: false })
 		this.setState({ currentUpvotes: this.state.currentUpvotes - 1 })
 	}
@@ -118,7 +112,6 @@ export default class Post extends Component {
 				post_id: localID,
 			}),
 		})
-		console.log(response.data)
 		this.setState({ deleteConfirm: true })
 	}
 
@@ -135,8 +128,6 @@ export default class Post extends Component {
 				username: this.props.context.userName,
 			}),
 		})
-
-		console.log(response.data.message)
 		this.setState({ showModal: false })
 		this.setState({ showConfirm: true })
 	}

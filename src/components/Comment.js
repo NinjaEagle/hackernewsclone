@@ -41,7 +41,6 @@ class Comment extends Component {
 		let localID = this.props.postID
 		let commentID = this.props.commentID
 		let routeString = '/editComment/Posts/' + localID + '/comments/' + commentID
-		console.log(routeString)
 		const response = await backend.put(routeString, {
 			body: JSON.stringify({
 				post_id: localID,
@@ -50,7 +49,6 @@ class Comment extends Component {
 			}),
 		})
 
-		console.log(response)
 		this.setState({ showModal: false })
 		this.setState({ showConfirm: true })
 	}
@@ -86,9 +84,6 @@ class Comment extends Component {
 	handleUpvote = async (e) => {
 		e.preventDefault()
 		if (this.props.context.isSignedIn) {
-			console.log('Clicked upvote for:')
-			console.log(this.props.postID)
-
 			let localID = this.props.postID
 			let commentID = this.props.commentID
 
@@ -100,9 +95,9 @@ class Comment extends Component {
 					comment_id: commentID,
 				}),
 			})
-			console.log(response)
+
 			this.setState({ voted: true })
-			this.setState({ currentUpvotes: this.props.upvotes + 1 })
+			this.setState({ currentUpvotes: this.state.currentUpvotes + 1 })
 		}
 	}
 
@@ -117,15 +112,11 @@ class Comment extends Component {
 				post_id: localID,
 			}),
 		})
-		console.log('downvote success')
-		console.log(response)
 		this.setState({ voted: false })
 		this.setState({ currentUpvotes: this.state.currentUpvotes - 1 })
 	}
 
 	render() {
-		console.log(this.state)
-		console.log(this.props)
 		if (this.state.redirect) {
 			return <Redirect push to={'/Comments/' + this.props.postID} />
 		}
@@ -151,7 +142,7 @@ class Comment extends Component {
 						{this.props.user} commented at{' '}
 						{this.convertTimeStamp(this.props.timeStamp)} [-]
 					</p>
-					<p>{this.props.upvotes} votes</p>
+					<p>{this.state.currentUpvotes} votes</p>
 					<p>
 						{this.props.context.userName === this.props.user && (
 							<Button

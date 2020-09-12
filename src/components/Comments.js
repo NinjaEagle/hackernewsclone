@@ -22,9 +22,6 @@ export default class Comments extends Component {
 			`/getCommentList/post/${this.props.match.params.id}`,
 			{}
 		)
-		console.log(commResponse)
-
-		// console.log(response)
 		this.setState({
 			localComments: commResponse.data.comments,
 			localPosts: response.data.posts,
@@ -48,7 +45,6 @@ export default class Comments extends Component {
 	}
 
 	handleChange = (e) => {
-		console.log(e.target)
 		this.setState({ [e.target.name]: e.target.value })
 	}
 
@@ -63,12 +59,10 @@ export default class Comments extends Component {
 			}),
 		})
 
-		console.log(response)
 		this.setState({ showModal: true })
 	}
 
 	render() {
-		console.log(this.state)
 		let post = this.state.localPosts.filter((post) => {
 			return post.post_id === this.props.match.params.id
 		})
