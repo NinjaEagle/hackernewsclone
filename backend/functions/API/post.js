@@ -1,132 +1,144 @@
-const { admin, db } = require("../utils/admin");
-const firebase = require("firebase");
+const { admin, db } = require('../utils/admin')
+const firebase = require('firebase')
+
+exports.getCommentNumbers = (request, respones) => {
+    const body = JSON.parse(request.body["body"]);
+    // const post_id = 
+}
 
 exports.createPost = (request, response) => {
-    const body = JSON.parse(request.body["body"]);
-    var title = body["title"];
-    var description = body["description"];
-    var post_link = body["link"];
-    var uid = body["uid"];
-    var username = body["username"];
-    const newPost = {
-        title: title,
-        description: description,
-        link: post_link,
-        uid: uid,
-        upvotes: 0,
-        username: username,
-        createdAt: new Date().toISOString()
+	const body = JSON.parse(request.body['body'])
+	var title = body['title']
+	var description = body['description']
+	var post_link = body['link']
+	var uid = body['uid']
+	var username = body['username']
+	const newPost = {
+		title: title,
+		description: description,
+		link: post_link,
+		uid: uid,
+		upvotes: 0,
+		username: username,
+		createdAt: new Date().toISOString(),
     }
-    db
-        .collection("/Posts")
-        .add(newPost)
-        .then((doc) => {
-            const responsePost = newPost;
-            responsePost.post_id = doc.id; 
+    const posts_collection = db.collection('/Posts');
+    const check_title = posts_collection.where("title", "==", title).get().then((doc) => {
+        if (doc.size > 0) {
+            return response.status(200).json({
+                message: "Duplicate post found"
+            })
+        } else {
+        posts_collection
+		.add(newPost)
+		.then((doc) => {
+			const responsePost = newPost
+			responsePost.post_id = doc.id
 
+			// TODO: add the post to post array of user
+			db
+				.collection('/Users')
+				.doc(uid)
+				.update({
+					posts: admin.firestore.FieldValue.arrayUnion(responsePost),
+				})
 
-            // TODO: add the post to post array of user
-            db 
-                .collection("/Users")
-                .doc(uid)
-                .update({
-                    posts: admin.firestore.FieldValue.arrayUnion(responsePost)
-                })
-    
-            return response.json(responsePost);
-        })
-        
-        .catch((err) => {
-			response.status(500).json({ error: 'Something went wrong' });
-			console.error(err);
-		});
+			return response.json(responsePost)
+		})
+
+		.catch((err) => {
+			response.status(500).json({ error: 'Something went wrong' })
+			console.error(err)
+		})
+        }
+    })
 }
 
 exports.deletePost = (request, response) => {
-    const document = db.doc(`/Posts/${request.params.post_id}`);
-    document
-        .get()
-        .then((doc) => {
-            if (!doc.exists) {
-                return response.status(404).json({ error: 'Post not found' })
-            }
-            var uid = doc.data().uid;
-            db 
-                .collection("/Users")
-                .doc(uid)
-                .get()
-                .then((doc) => {
-                    var doc_data = doc.data();
-                    var posts = doc_data.posts;
-                    for (var i = 0; i < posts.length; i++) {
-                        if (posts[i].post_id == document.id) {
-                            posts.splice(i, 1)
-                            break;
-                        }
-                    }
-                    db.collection("/Users").doc(uid).update({
-                        posts: posts
-                    })
-                })
-    
-            return document.delete();
-        })
-        .then(() => {
-            response.json({ message: 'Delete successfull' });
-        })
-        .catch((err) => {
-            console.error(err);
-            return response.status(500).json({ error: err.code });
-        });
-};
+	const document = db.doc(`/Posts/${request.params.post_id}`)
+	document
+		.get()
+		.then((doc) => {
+			if (!doc.exists) {
+				return response.status(404).json({ error: 'Post not found' })
+			}
+			var uid = doc.data().uid
+			db
+				.collection('/Users')
+				.doc(uid)
+				.get()
+				.then((doc) => {
+					var doc_data = doc.data()
+					var posts = doc_data.posts
+					for (var i = 0; i < posts.length; i++) {
+						if (posts[i].post_id == document.id) {
+							posts.splice(i, 1)
+							break
+						}
+					}
+					db.collection('/Users').doc(uid).update({
+						posts: posts,
+					})
+				})
 
-exports.editPost = ( request, response ) => { 
-    if(request.body.post_id || request.body.createdAt){
-        response.status(403).json({message: 'Not allowed to edit these fields'});
-    }
-    let document = db.collection('/Posts').doc(`${request.params.post_id}`);
-    document.update(JSON.parse(request.body.body))
-    .then(()=> {
-        response.json({message: 'Updated successfully'});
-    })
-    .catch((err) => {
-        console.error(err);
-        return response.status(500).json({ 
-                error: err.code 
-        });
-    });
-};
+			return document.delete()
+		})
+		.then(() => {
+			response.json({ message: 'Delete successfull' })
+		})
+		.catch((err) => {
+			console.error(err)
+			return response.status(500).json({ error: err.code })
+		})
+}
+
+exports.editPost = (request, response) => {
+	if (request.body.post_id || request.body.createdAt) {
+		response.status(403).json({ message: 'Not allowed to edit these fields' })
+	}
+	let document = db.collection('/Posts').doc(`${request.params.post_id}`)
+	document
+		.update(JSON.parse(request.body.body))
+		.then(() => {
+			response.json({ message: 'Updated successfully' })
+		})
+		.catch((err) => {
+			console.error(err)
+			return response.status(500).json({
+				error: err.code,
+			})
+		})
+}
 
 exports.addCommentToPost = (request, response) => {
-    const body = JSON.parse(request.body["body"]);
-    var post_id = body["post_id"];
-    var comment_body = body["commentBody"];
-    var username = body["username"]; //comment written by user
-    const newComment = {
-        commentBody: comment_body,
-        username: username, //username
-        createdAt: new Date().toISOString()
-    }
-    db
-        .collection(`/Posts/${post_id}/comments`)
-        // .doc(`${post_id}`)
-        // .colllection("/comments")
-        .add(newComment)
-        .then((doc) => {
-            //return the autogenerated ID
-            const responseCommentPost = newComment;
-            responseCommentPost.comment_id = doc.id;
-             //autogenerated id for comment
-            return response.json(responseCommentPost);
-        })
-        .catch((err) => {
-			response.status(500).json({ error: 'Something went wrong' });
-			console.error(err);
-        }
-    )
-};
+	const body = JSON.parse(request.body['body'])
+	var post_id = body['post_id']
+	var comment_body = body['commentBody']
+	var username = body['username'] //comment written by user
+	const newComment = {
+		commentBody: comment_body,
+		username: username, //username
+		createdAt: new Date().toISOString(),
+	}
+	db
+		.collection(`/Posts/${post_id}/comments`)
+		// .doc(`${post_id}`)
+		// .colllection("/comments")
+		.add(newComment)
+		.then((doc) => {
+			//return the autogenerated ID
+			const responseCommentPost = newComment
+			responseCommentPost.comment_id = doc.id
+			//autogenerated id for comment
+			return response.json(responseCommentPost)
+		})
+		.catch((err) => {
+			response.status(500).json({ error: 'Something went wrong' })
+			console.error(err)
+		})
+}
 
-exports.editComment = ( request, response ) => { 
+exports.deleteComment = ( request, response ) => { 
     if(request.body.comment_id || request.body.createdAt || request.body.upvotes){
         response.status(403).json({message: 'Not allowed to edit these fields'});
     }
@@ -136,9 +148,9 @@ exports.editComment = ( request, response ) => {
         .doc(request.params.post_id)
         .collection("/comments")
         .doc(request.params.comment_id)
-    document.update(JSON.parse(request.body.body))
+    document.delete()
     .then(()=> {
-        response.json({message: 'Comment updated successfully'});
+        response.json({message: 'Comment deleted successfully'});
     })
     .catch((err) => {
         console.error(err);
@@ -151,6 +163,8 @@ exports.editComment = ( request, response ) => {
 
 exports.upvotePost = ( request, response ) => { 
     const document = db.doc(`/Posts/${request.params.post_id}`);
+    const isDownVote = request.params.isDownVote;
+    
     document
         .get()
         .then((doc) => {
@@ -158,16 +172,33 @@ exports.upvotePost = ( request, response ) => {
                 return response.status(404).json({ error: 'Post not found' })
             }
             // edit the upvote for the username
-            document.update({
-                upvotes: admin.firestore.FieldValue.increment(1)
-            })
-            db 
-                .collection("/Users")
-                .doc(doc.data().uid)
-                .update({
-                    upvotes: admin.firestore.FieldValue.arrayUnion(doc.data())
+            if (isDownVote == "0") {
+                document.update({
+                    upvotes: admin.firestore.FieldValue.increment(1)
                 })
-            return document;
+                var posts = doc.data();
+                posts.upvotes += 1;
+                db 
+                    .collection("/Users")
+                    .doc(doc.data().uid)
+                    .update({
+                        upvotes: admin.firestore.FieldValue.arrayUnion(posts)
+                    })
+                return document;
+            } else {
+                document.update({
+                    upvotes: admin.firestore.FieldValue.increment(-1)
+                })
+                var posts = doc.data();
+                posts.upvotes -= 1;
+                db 
+                    .collection("/Users")
+                    .doc(doc.data().uid)
+                    .update({
+                        upvotes: admin.firestore.FieldValue.arrayRemove(posts)
+                    })
+                return document;
+            }
         })
         .then(() => {
             response.json({ message: 'Upvote successful' });
@@ -177,31 +208,58 @@ exports.upvotePost = ( request, response ) => {
             return response.status(500).json({ error: err.code });
         });
 };
+exports.editComment = (request, response) => {
+	if (
+		request.body.comment_id ||
+		request.body.createdAt ||
+		request.body.upvotes
+	) {
+		response.status(403).json({ message: 'Not allowed to edit these fields' })
+	}
+
+	let document = db
+		.collection(`/Posts`)
+		.doc(request.params.post_id)
+		.collection('/comments')
+		.doc(request.params.comment_id)
+	document
+		.update(JSON.parse(request.body.body))
+		.then(() => {
+			response.json({ message: 'Comment updated successfully' })
+		})
+		.catch((err) => {
+			console.error(err)
+			return response.status(500).json({
+				error: err.code,
+			})
+		})
+}
 
 
-exports.upvoteComment = ( request, response ) => { 
-    let document = db
-        .collection(`/Posts`)
-        .doc(request.params.post_id)
-        .collection("/comments")
-        .doc(request.params.comment_id)
 
-    document
-    .get()
-    .then((doc) => {
-        if (!doc.exists) {
-            return response.status(404).json({ error: 'Post not found' })
-        }
-        document.update({
-            upvotes: admin.firestore.FieldValue.increment(1)
-        });
-        return document;
-    })
-    .then(() => {
-        response.json({ message: 'Upvote successful' });
-    })
-    .catch((err) => {
-        console.error(err);
-        reresponse.status(500).json({ error: err.code });
-    });
-};
+exports.upvoteComment = (request, response) => {
+	let document = db
+		.collection(`/Posts`)
+		.doc(request.params.post_id)
+		.collection('/comments')
+		.doc(request.params.comment_id)
+
+	document
+		.get()
+		.then((doc) => {
+			if (!doc.exists) {
+				return response.status(404).json({ error: 'Post not found' })
+			}
+			document.update({
+				upvotes: admin.firestore.FieldValue.increment(1),
+			})
+			return document
+		})
+		.then(() => {
+			response.json({ message: 'Upvote successful' })
+		})
+		.catch((err) => {
+			console.error(err)
+			reresponse.status(500).json({ error: err.code })
+		})
+}
