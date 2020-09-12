@@ -21,9 +21,15 @@ exports.createPost = (request, response) => {
 		upvotes: 0,
 		username: username,
 		createdAt: new Date().toISOString(),
-	}
-	db
-		.collection('/Posts')
+    }
+    const posts_collection = db.collection('/Posts');
+    const check_title = posts_collection.where("title", "==", title).get().then((doc) => {
+        if (doc.size > 0) {
+            return response.status(200).json({
+                message: "Duplicate post found"
+            })
+        } else {
+        posts_collection
 		.add(newPost)
 		.then((doc) => {
 			const responsePost = newPost
@@ -44,6 +50,8 @@ exports.createPost = (request, response) => {
 			response.status(500).json({ error: 'Something went wrong' })
 			console.error(err)
 		})
+        }
+    })
 }
 
 exports.deletePost = (request, response) => {
@@ -168,22 +176,26 @@ exports.upvotePost = ( request, response ) => {
                 document.update({
                     upvotes: admin.firestore.FieldValue.increment(1)
                 })
+                var posts = doc.data();
+                posts.upvotes += 1;
                 db 
                     .collection("/Users")
                     .doc(doc.data().uid)
                     .update({
-                        upvotes: admin.firestore.FieldValue.arrayUnion(doc.data())
+                        upvotes: admin.firestore.FieldValue.arrayUnion(posts)
                     })
                 return document;
             } else {
                 document.update({
                     upvotes: admin.firestore.FieldValue.increment(-1)
                 })
+                var posts = doc.data();
+                posts.upvotes -= 1;
                 db 
                     .collection("/Users")
                     .doc(doc.data().uid)
                     .update({
-                        upvotes: admin.firestore.FieldValue.arrayRemove(doc.data())
+                        upvotes: admin.firestore.FieldValue.arrayRemove(posts)
                     })
                 return document;
             }
@@ -223,34 +235,7 @@ exports.editComment = (request, response) => {
 		})
 }
 
-exports.upvotePost = (request, response) => {
-	const document = db.doc(`/Posts/${request.params.post_id}`)
-	document
-		.get()
-		.then((doc) => {
-			if (!doc.exists) {
-				return response.status(404).json({ error: 'Post not found' })
-			}
-			// edit the upvote for the username
-			document.update({
-				upvotes: admin.firestore.FieldValue.increment(1),
-			})
-			db
-				.collection('/Users')
-				.doc(doc.data().uid)
-				.update({
-					upvotes: admin.firestore.FieldValue.arrayUnion(doc.data()),
-				})
-			return document
-		})
-		.then(() => {
-			response.json({ message: 'Upvote successful' })
-		})
-		.catch((err) => {
-			console.error(err)
-			return response.status(500).json({ error: err.code })
-		})
-}
+
 
 exports.upvoteComment = (request, response) => {
 	let document = db
