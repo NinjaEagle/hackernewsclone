@@ -1,8 +1,9 @@
 # HackerNewsClone: A react-bootstrap styled clone of [Hacker News](https://news.ycombinator.com/)
 
 A hackathon project for [Open Water Accelerator](https://openwatervc.com/)
-## Host
+## Hosts
 Our site is hosted here [ADD LINK](https://news.ycombinator.com/)
+While our backend is hosted on [Google Firebase](https://firebase.google.com/)
 
 ## Scripts on how to run this repository locally
 
