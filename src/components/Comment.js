@@ -124,7 +124,7 @@ class Comment extends Component {
 		return (
 			<div>
 				<div className='boxes'>
-					{!this.state.voted && this.props.context.userName && (
+					{!this.state.voted && (
 						<TriangleFill
 							style={{ backgroundColor: 'orange' }}
 							onClick={this.handleUpvote}
@@ -167,34 +167,36 @@ class Comment extends Component {
 					---------------------
 				</div>
 				{/* Edit comment modal */}
-				<Modal
-					backdrop='static'
-					show={this.state.showModal}
-					onHide={() => this.setState({ showModal: false })}>
-					<Modal.Header closeButton>
-						<Modal.Title>Edit your comment</Modal.Title>
-					</Modal.Header>
-					<form onSubmit={this.editComment}>
-						<Modal.Body>
-							<InputGroup>
-								<InputGroup.Prepend>
-									<InputGroup.Text>Edit your comment description </InputGroup.Text>
-								</InputGroup.Prepend>
-								<FormControl
-									as='textarea'
-									aria-label='With textarea'
-									value={this.state.description}
-									onChange={(e) => this.setState({ description: e.target.value })}
-								/>
-							</InputGroup>
-						</Modal.Body>
-						<Modal.Footer>
-							<Button variant='primary' type='submit'>
-								Continue
-							</Button>
-						</Modal.Footer>
-					</form>
-				</Modal>
+				{this.props.isSignedIn == true && (
+					<Modal
+						backdrop='static'
+						show={this.state.showModal}
+						onHide={() => this.setState({ showModal: false })}>
+						<Modal.Header closeButton>
+							<Modal.Title>Edit your comment</Modal.Title>
+						</Modal.Header>
+						<form onSubmit={this.editComment}>
+							<Modal.Body>
+								<InputGroup>
+									<InputGroup.Prepend>
+										<InputGroup.Text>Edit your comment description </InputGroup.Text>
+									</InputGroup.Prepend>
+									<FormControl
+										as='textarea'
+										aria-label='With textarea'
+										value={this.state.description}
+										onChange={(e) => this.setState({ description: e.target.value })}
+									/>
+								</InputGroup>
+							</Modal.Body>
+							<Modal.Footer>
+								<Button variant='primary' type='submit'>
+									Continue
+								</Button>
+							</Modal.Footer>
+						</form>
+					</Modal>
+				)}
 
 				<Modal
 					show={this.state.showDelete}
