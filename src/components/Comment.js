@@ -22,11 +22,20 @@ class Comment extends Component {
 		deleteConfirm: false,
 		description: '',
 		showModal: false,
+
 		redirect: false,
 		voted: false,
 		currentUpvotes: 0,
 	}
 
+	async componentDidMount() {
+		let localID = this.props.postID
+		let routeString = '/getCommentList/post/' + localID
+		const response = await backend.get(routeString, {})
+
+		this._isMounted = true
+		this.setState({ currentUpvotes: this.props.upvotes })
+	}
 	editComment = async (e) => {
 		e.preventDefault()
 		let localID = this.props.postID
@@ -84,7 +93,7 @@ class Comment extends Component {
 			let commentID = this.props.commentID
 
 			let routeString =
-				'/upvoteComment/Posts/' + localID + '/comments/' + commentID
+				'/upvoteComment/Posts/' + localID + '/comments/' + commentID + '/0'
 			const response = await backend.put(routeString, {
 				body: JSON.stringify({
 					post_id: localID,
@@ -93,14 +102,16 @@ class Comment extends Component {
 			})
 			console.log(response)
 			this.setState({ voted: true })
-			this.setState({ currentUpvotes: this.state.currentUpvotes + 1 })
+			this.setState({ currentUpvotes: this.props.upvotes + 1 })
 		}
 	}
 
 	downvote = async (e) => {
 		e.preventDefault()
 		let localID = this.props.postID
-		let routeString = '/upvoteComment/' + localID + '/1'
+		let commentID = this.props.commentID
+		let routeString =
+			'/upvoteComment/Posts/' + localID + '/comments/' + commentID + '/1'
 		const response = await backend.put(routeString, {
 			body: JSON.stringify({
 				post_id: localID,
@@ -116,13 +127,13 @@ class Comment extends Component {
 		console.log(this.state)
 		console.log(this.props)
 		if (this.state.redirect) {
-			return <Redirect push to='/' />
+			return <Redirect push to={'/Comments/' + this.props.postID} />
 		}
 
 		return (
 			<div>
 				<div className='boxes'>
-					{!this.state.voted && (
+					{!this.state.voted && this.props.context.userName && (
 						<TriangleFill
 							style={{ backgroundColor: 'orange' }}
 							onClick={this.handleUpvote}
@@ -140,7 +151,7 @@ class Comment extends Component {
 						{this.props.user} commented at{' '}
 						{this.convertTimeStamp(this.props.timeStamp)} [-]
 					</p>
-					<p>{this.state.currentUpvotes} votes</p>
+					<p>{this.props.upvotes} votes</p>
 					<p>
 						{this.props.context.userName === this.props.user && (
 							<Button
@@ -162,6 +173,7 @@ class Comment extends Component {
 						)}
 					</p>
 					<p>{this.props.text}</p>
+					---------------------
 				</div>
 				{/* Edit comment modal */}
 				<Modal
