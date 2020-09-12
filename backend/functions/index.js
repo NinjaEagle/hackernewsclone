@@ -16,7 +16,11 @@ const {
 	getUserProfile,
 } = require('./API/user')
 
-app.use(cors())
+app.use(cors({
+    origin: "*",
+    methods: "GET, HEAD, PUT, PATCH, POST, DELETE"
+}))
+
 app.post('/validateUser', validateUser)
 app.post('/createUser', createUser)
 app.get('/getPostList', getPostList)
