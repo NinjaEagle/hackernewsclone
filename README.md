@@ -4,7 +4,7 @@ A hackathon project for [Open Water Accelerator](https://openwatervc.com/)
 ## Host
 Our site is hosted here [ADD LINK](https://news.ycombinator.com/)
 
-## Scripts on how to run this directory 
+## Scripts on how to run this directory locally
 
 After downloading node.js from [https://nodejs.org/en/](https://nodejs.org/en/)
 
