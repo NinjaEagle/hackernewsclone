@@ -47,7 +47,7 @@ export default class Signout extends React.Component {
             </Card>
 
             <Modal
-				show={this.state.showModal}
+				show={this.state.showModal} backdrop="static"
 					onHide={() => this.setState({ showModal: false })}>
 					<Modal.Header closeButton>
 						<Modal.Title>Sign out successful!</Modal.Title>
