@@ -40,8 +40,8 @@ export default class Comments extends Component {
 					<h1>{post.title}</h1>
 					<p>
 						{post.upvotes} upvotes by {post.username} {post.timeStamp} ago{' '}
-						{post.comments}
 					</p>
+					<p>{post.description}</p>
 				</div>
 			)
 		}
@@ -54,6 +54,7 @@ export default class Comments extends Component {
 
 	handleSubmit = async (e) => {
 		e.preventDefault()
+
 		const response = await backend.post('/addCommentToPost', {
 			body: JSON.stringify({
 				post_id: this.state.post_id,
@@ -82,19 +83,21 @@ export default class Comments extends Component {
 				{/* <button onClick={this.clickBttn}>Click me</button> */}
 				<div className='boxes'>
 					{this.postDetails(post[0])}
-					<form onSubmit={this.handleSubmit} className='commentForm'>
-						<input
-							onChange={this.handleChange}
-							className='textbox'
-							required
-							type='text'
-							name='text'
-							placeholder='Say something...'
-						/>
-						<br />
+					{this.props.context.isSignedIn === 'true' && (
+						<form onSubmit={this.handleSubmit} className='commentForm'>
+							<input
+								onChange={this.handleChange}
+								className='textbox'
+								required
+								type='text'
+								name='text'
+								placeholder='Say something...'
+							/>
+							<br />
 
-						<input type='submit' value='add comment' />
-					</form>
+							<input type='submit' value='add comment' />
+						</form>
+					)}
 				</div>
 				{this.state.localComments.map((c) => (
 					<div key={c.comment_id}>
@@ -102,9 +105,10 @@ export default class Comments extends Component {
 							commentID={c.comment_id}
 							text={c.commentBody}
 							postID={this.state.post_id}
+							upvotes={c.upvotes}
 							user={c.username}
 							timeStamp={c.createdAt}
-							index={this.state.localPosts.indexOf(c) + 1}
+							index={this.state.localComments.indexOf(c) + 1}
 							context={context}
 						/>
 					</div>

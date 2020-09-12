@@ -148,14 +148,14 @@ export default class Post extends Component {
 
 	render() {
 		if (this.state.redirect) {
-			return <Redirect push to='/Profil' />
+			return <Redirect push to='/' />
 		}
 
 		return (
 			<React.Fragment>
 				<Card className='posts'>
 					<Card.Header>
-						{!this.state.voted && (
+						{!this.state.voted && this.props.context.userName && (
 							<TriangleFill
 								style={{ backgroundColor: 'orange' }}
 								onClick={this.handleUpvote}
