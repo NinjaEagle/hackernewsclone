@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 import { TriangleFill } from 'react-bootstrap-icons'
 import {
 	Button,
-	Card,
 	FormControl,
-	FormGroup,
-	FormLabel,
 	Modal,
 	InputGroup,
 } from 'react-bootstrap'
@@ -33,6 +30,8 @@ class Comment extends Component {
 		let routeString = '/getCommentList/post/' + localID
 		const response = await backend.get(routeString, {})
 
+		if(response){}
+
 		this._isMounted = true
 		this.setState({ currentUpvotes: this.props.upvotes })
 	}
@@ -48,6 +47,7 @@ class Comment extends Component {
 				commentBody: this.state.description,
 			}),
 		})
+		if(response){}
 
 		this.setState({ showModal: false })
 		this.setState({ showConfirm: true })
@@ -64,6 +64,8 @@ class Comment extends Component {
 				comment_id: this.props.commentID,
 			}),
 		})
+
+		if(response){}
 
 		this.setState({ deleteConfirm: true })
 	}
@@ -96,6 +98,7 @@ class Comment extends Component {
 				}),
 			})
 
+			if(response)
 			this.setState({ voted: true })
 			this.setState({ currentUpvotes: this.state.currentUpvotes + 1 })
 		}
@@ -112,6 +115,8 @@ class Comment extends Component {
 				post_id: localID,
 			}),
 		})
+
+		if(response)
 		this.setState({ voted: false })
 		this.setState({ currentUpvotes: this.state.currentUpvotes - 1 })
 	}
@@ -126,7 +131,6 @@ class Comment extends Component {
 				<div className='boxes'>
 					{!this.state.voted && (
 						<TriangleFill
-							style={{ backgroundColor: 'orange' }}
 							onClick={this.handleUpvote}
 							size={16}
 							style={{ cursor: 'pointer' }}

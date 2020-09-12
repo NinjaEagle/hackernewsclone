@@ -28,6 +28,7 @@ export default class Comments extends Component {
 			userName: this.props.context.userName,
 			post_id: this.props.match.params.id,
 		})
+
 	}
 
 	postDetails = (post) => {
@@ -58,6 +59,7 @@ export default class Comments extends Component {
 				username: this.props.context.userName,
 			}),
 		})
+		if(response){}
 
 		this.setState({ showModal: true })
 	}

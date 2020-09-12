@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Button } from 'react-bootstrap'
 import Post from './Post'
 import backend from '../api/backend'
 

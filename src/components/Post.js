@@ -81,6 +81,7 @@ export default class Post extends Component {
 					post_id: localID,
 				}),
 			})
+			if(response)
 			this.setState({ voted: true })
 			this.setState({ currentUpvotes: this.state.currentUpvotes + 1 })
 		}
@@ -95,6 +96,7 @@ export default class Post extends Component {
 				post_id: localID,
 			}),
 		})
+		if(response)
 		this.setState({ voted: false })
 		this.setState({ currentUpvotes: this.state.currentUpvotes - 1 })
 	}
@@ -112,6 +114,7 @@ export default class Post extends Component {
 				post_id: localID,
 			}),
 		})
+		if(response)
 		this.setState({ deleteConfirm: true })
 	}
 
@@ -128,6 +131,7 @@ export default class Post extends Component {
 				username: this.props.context.userName,
 			}),
 		})
+		if(response){}
 		this.setState({ showModal: false })
 		this.setState({ showConfirm: true })
 	}
@@ -148,7 +152,6 @@ export default class Post extends Component {
 					<Card.Header>
 						{!this.state.voted && this.props.context.userName && (
 							<TriangleFill
-								style={{ backgroundColor: 'orange' }}
 								onClick={this.handleUpvote}
 								size={16}
 								style={{ cursor: 'pointer' }}
