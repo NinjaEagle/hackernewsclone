@@ -10,6 +10,7 @@ import {
 	InputGroup,
 } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import backend from '../api/backend'
 
 class Comment extends Component {
 	state = {
@@ -18,15 +19,22 @@ class Comment extends Component {
 		deleteComment: true,
 	}
 
-	deleteComment = () => {
+	deleteComment = async (e) => {
+		e.preventDefault()
 		console.log('try to delete')
+		const response = await backend.delete(`/deletePost/${this.props.postID}`, {
+			body: JSON.stringify({
+				username: this.props.context.userName,
+			}),
+		})
+
+		console.log(response)
 		this.setState({ deleteComment: true })
 	}
 	editComment = () => {
 		if (
-			true
-			// this.props.context.isSignedIn &&
-			// this.props.user == this.props.context.userName
+			this.props.context.isSignedIn &&
+			this.props.user == this.props.context.userName
 		) {
 			return (
 				<div>
@@ -39,6 +47,14 @@ class Comment extends Component {
 		} else {
 			return <div></div>
 		}
+	}
+	convertTimeStamp(stamp) {
+		let temp = new Date(stamp)
+		let date =
+			temp.getFullYear() + '-' + (temp.getMonth() + 1) + '-' + temp.getDate()
+		let time = temp.getHours() + ':' + temp.getMinutes() + ':' + temp.getSeconds()
+		let timestamp = date + ' ' + time
+		return timestamp
 	}
 
 	render() {
@@ -53,7 +69,8 @@ class Comment extends Component {
 						style={{ cursor: 'pointer' }}
 					/>
 					<p>
-						{this.props.user} {this.props.timestamp} ago [-]
+						{this.props.user} commented at{' '}
+						{this.convertTimeStamp(this.props.timeStamp)} [-]
 						{this.editComment()}
 					</p>
 					<p>{this.props.text}</p>

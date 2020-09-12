@@ -1,13 +1,5 @@
 import React, { Component } from 'react'
-import {
-	Card,
-	Button,
-	InputGroup,
-	FormControl,
-	FormGroup,
-	FormLabel,
-	Modal,
-} from 'react-bootstrap'
+import { Card, Button, InputGroup, FormControl, Modal } from 'react-bootstrap'
 import { Redirect } from 'react-router-dom'
 import backend from '../api/backend'
 
@@ -18,12 +10,14 @@ export default class EditComment extends Component {
 		submitComplete: false,
 		showModal: false,
 	}
+
+	// can't seem to pass down comment ID to update
 	editComment = async (e) => {
 		e.preventDefault()
 		const response = await backend.put('/editComment/', {
 			body: JSON.stringify({
 				post_id: this.props.match.params.id,
-				comment_id: this.props.match.params,
+				comment_id: 0,
 			}),
 		})
 		console.log(response)
@@ -31,9 +25,9 @@ export default class EditComment extends Component {
 
 	render() {
 		console.log(this.props)
-		if (this.state.submitComplete) {
-			return <Redirect push to='/Comments/:id' />
-		}
+		// if (this.state.submitComplete) {
+		// 	return <Redirect push to='/Comments/:id' />
+		// }
 		return (
 			<div className='CreatePost'>
 				<Card style={{ width: '30rem', height: '34rem' }} bg='dark' text='light'>

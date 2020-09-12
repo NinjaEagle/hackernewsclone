@@ -19,7 +19,6 @@ class MyProvider extends React.Component {
 		updateUsername: (userName) => this.updateUsername(userName),
 		updatePosts: (posts) => this.updatePosts(posts),
 		updateIsSignedIn: (isSignedIn) => this.updateIsSignedIn(isSignedIn),
-		newComment: (comment) => this.newComment(comment),
 	}
 
 	initPosts(initPosts) {
