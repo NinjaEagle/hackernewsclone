@@ -45,13 +45,20 @@ export default class Post extends Component {
 			initUrl: '',
 
 			redirect: false,
+
+			numComments: 0,
 		}
 
 		this._isMounted = false
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
+		let localID = this.props.postID
+		let routeString = '/getCommentList/post/' + localID
+		const response = await backend.get(routeString, {})
+
 		this._isMounted = true
+		this.setState({ numComments: response.data.comments.length })
 		this.setState({ title: this.props.title })
 		this.setState({ url: this.props.link })
 		this.setState({ description: this.props.description })
@@ -59,11 +66,6 @@ export default class Post extends Component {
 
 	componentWillUnmount() {
 		this._isMounted = false
-
-		// this.props.context.updateCurrentPost(this.state.cPost);
-		// console.log("ContextPost")
-		// console.log(this.props.context.isSignedIn);
-		// console.log(this.props.context.currentPost);
 	}
 
 	handleUpvote = async (e) => {
@@ -76,17 +78,6 @@ export default class Post extends Component {
 
 	savePost = (event) => {
 		event.preventDefault()
-
-		// let post = {
-		// 	postID: this.props.postID,
-		// 	title: this.props.title,
-		// 	link: this.props.link,
-		// 	description: this.props.description
-		// }
-		// console.log("First cPost");
-		// console.log(post);
-		// this.setState({cPost: post})
-		// this.setState({showModal: true});
 	}
 
 	deletePost = async (event) => {
@@ -152,7 +143,7 @@ export default class Post extends Component {
 						{this.props.upvotes} points by {this.props.user} posted on{' '}
 						{this.props.timeStamp} PST |{' '}
 						<Link to={'/Comments/' + this.props.postID} post={this.props.postID}>
-							{this.props.comments} comments{' '}
+							{this.state.numComments} comments{' '}
 						</Link>
 						{this.props.context.userName === this.props.user && (
 							<Button
