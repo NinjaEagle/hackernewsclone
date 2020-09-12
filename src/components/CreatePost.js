@@ -20,6 +20,9 @@ export default class CreatePost extends React.Component {
 		show: false,
 		submitComplete: false,
 		showModal: false,
+
+		errorMessage: '',
+		dupeFound: false,
 	}
 
 	createPost = async (event) => {
@@ -34,14 +37,21 @@ export default class CreatePost extends React.Component {
 				username: this.props.context.userName,
 			}),
 		})
+		if (response.data.message) {
+			this.setState({ errorMessage: response.data.message })
+			this.setState({ dupeFound: true })
+		}
 
-		console.log(response)
 		this.setState({ showModal: true })
 	}
 
-	render() {
-		//console.log(this.state.submitComplete);
+	handleReset = (e) => {
+		this.setState({ errorMessage: '' })
+		this.setState({ dupeFound: false })
+		this.setState({ showModal: false })
+	}
 
+	render() {
 		if (this.state.submitComplete) {
 			return <Redirect push to='/' />
 		}
@@ -95,23 +105,47 @@ export default class CreatePost extends React.Component {
 				</Card>
 
 				<Modal
-					show={this.state.showModal} backdrop="static"
+					show={this.state.showModal}
+					backdrop='static'
 					onHide={() => this.setState({ showModal: false })}>
 					<Modal.Header closeButton>
-						<Modal.Title>Post Created Sucessfully</Modal.Title>
+						{!this.state.dupeFound && (
+							<Modal.Title>Post Created Sucessfully</Modal.Title>
+						)}
+						{this.state.dupeFound && (
+							<Modal.Title>Error duplicate title detected</Modal.Title>
+						)}
 					</Modal.Header>
-					<Modal.Body>
-						{' '}
-						{this.state.title} is now available on the front page
-					</Modal.Body>
+					{!this.state.dupeFound && (
+						<Modal.Body>
+							{this.state.title} is now available on the front page
+						</Modal.Body>
+					)}
+					{this.state.dupeFound && (
+						<Modal.Body>
+							{this.state.title} already exists please try again
+						</Modal.Body>
+					)}
+
 					<Modal.Footer>
-						<Button
-							variant='primary'
-							onClick={() => {
-								this.setState({ submitComplete: true })
-							}}>
-							Continue
-						</Button>
+						{!this.state.dupeFound && (
+							<Button
+								variant='primary'
+								onClick={() => {
+									this.setState({ submitComplete: true })
+								}}>
+								Continue
+							</Button>
+						)}
+						{this.state.dupeFound && (
+							<Button
+								variant='primary'
+								onClick={() => {
+									this.setState({ submitComplete: true })
+								}}>
+								Retry
+							</Button>
+						)}
 					</Modal.Footer>
 				</Modal>
 			</div>

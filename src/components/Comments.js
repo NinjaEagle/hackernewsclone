@@ -3,7 +3,7 @@ import './css/Comment.css'
 import backend from '../api/backend'
 import Comment from './Comment.js'
 import { Modal, Button } from 'react-bootstrap'
-import {Redirect} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 export default class Comments extends Component {
 	state = {
@@ -22,9 +22,6 @@ export default class Comments extends Component {
 			`/getCommentList/post/${this.props.match.params.id}`,
 			{}
 		)
-		console.log(commResponse)
-
-		// console.log(response)
 		this.setState({
 			localComments: commResponse.data.comments,
 			localPosts: response.data.posts,
@@ -40,20 +37,20 @@ export default class Comments extends Component {
 					<h1>{post.title}</h1>
 					<p>
 						{post.upvotes} upvotes by {post.username} {post.timeStamp} ago{' '}
-						{post.comments}
 					</p>
+					<p>{post.description}</p>
 				</div>
 			)
 		}
 	}
 
 	handleChange = (e) => {
-		console.log(e.target)
 		this.setState({ [e.target.name]: e.target.value })
 	}
 
 	handleSubmit = async (e) => {
 		e.preventDefault()
+
 		const response = await backend.post('/addCommentToPost', {
 			body: JSON.stringify({
 				post_id: this.state.post_id,
@@ -62,12 +59,10 @@ export default class Comments extends Component {
 			}),
 		})
 
-		console.log(response)
 		this.setState({ showModal: true })
 	}
 
 	render() {
-		console.log(this.state)
 		let post = this.state.localPosts.filter((post) => {
 			return post.post_id === this.props.match.params.id
 		})
@@ -82,19 +77,21 @@ export default class Comments extends Component {
 				{/* <button onClick={this.clickBttn}>Click me</button> */}
 				<div className='boxes'>
 					{this.postDetails(post[0])}
-					<form onSubmit={this.handleSubmit} className='commentForm'>
-						<input
-							onChange={this.handleChange}
-							className='textbox'
-							required
-							type='text'
-							name='text'
-							placeholder='Say something...'
-						/>
-						<br />
+					{this.props.context.isSignedIn === 'true' && (
+						<form onSubmit={this.handleSubmit} className='commentForm'>
+							<input
+								onChange={this.handleChange}
+								className='textbox'
+								required
+								type='text'
+								name='text'
+								placeholder='Say something...'
+							/>
+							<br />
 
-						<input type='submit' value='add comment' />
-					</form>
+							<input type='submit' value='add comment' />
+						</form>
+					)}
 				</div>
 				{this.state.localComments.map((c) => (
 					<div key={c.comment_id}>
@@ -102,15 +99,17 @@ export default class Comments extends Component {
 							commentID={c.comment_id}
 							text={c.commentBody}
 							postID={this.state.post_id}
+							upvotes={c.upvotes}
 							user={c.username}
 							timeStamp={c.createdAt}
-							index={this.state.localPosts.indexOf(c) + 1}
+							index={this.state.localComments.indexOf(c) + 1}
 							context={context}
 						/>
 					</div>
 				))}
 
-				<Modal backdrop="static"
+				<Modal
+					backdrop='static'
 					show={this.state.showModal}
 					onHide={() => this.setState({ showModal: false })}>
 					<Modal.Header closeButton>
@@ -120,8 +119,8 @@ export default class Comments extends Component {
 					<Modal.Footer>
 						<Button
 							variant='primary'
-							 onClick={() => {
-								this.setState({submitComplete: true})
+							onClick={() => {
+								this.setState({ submitComplete: true })
 							}}>
 							Continue
 						</Button>

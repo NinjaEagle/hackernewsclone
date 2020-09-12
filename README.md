@@ -1,6 +1,6 @@
 # HackerNewsClone: A react-bootstrap styled clone of [Hacker News](https://news.ycombinator.com/)
 
-A hackathon project for [Open Water Accelerator](https://openwatervc.com/)
+A team bonding project for [Open Water Accelerator](https://openwatervc.com/)
 ## Hosts
 Our site is hosted here [ADD LINK](https://news.ycombinator.com/)
 
