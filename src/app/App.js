@@ -9,6 +9,7 @@ import Comments from '../components/Comments'
 import CreatePost from '../components/CreatePost'
 import EditComment from '../components/EditComment'
 import Signout from '../components/Signout'
+import { Router } from 'express'
 
 export default class App extends React.Component {
 	render() {
@@ -51,6 +52,8 @@ export default class App extends React.Component {
 											path='/EditComment/:id'
 											exact
 											render={(props) => <EditComment {...props} {...context} />}
+											/>
+										<Route
 											path='/Signout'
 											exact
 											render={(props) => <Signout {...props} {...context} />}

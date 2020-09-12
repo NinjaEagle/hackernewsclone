@@ -95,7 +95,7 @@ export default class CreatePost extends React.Component {
 				</Card>
 
 				<Modal
-					show={this.state.showModal}
+					show={this.state.showModal} backdrop="static"
 					onHide={() => this.setState({ showModal: false })}>
 					<Modal.Header closeButton>
 						<Modal.Title>Post Created Sucessfully</Modal.Title>
