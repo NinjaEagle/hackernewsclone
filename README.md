@@ -8,7 +8,7 @@ Our site is hosted here [ADD LINK](https://news.ycombinator.com/)
 
 After cloning the repo download node.js from [https://nodejs.org/en/](https://nodejs.org/en/)
 
-In the project directory of hackernewsclone, run: 
+In the project directory of hackernewsclone, in console/terminal run: 
 ```
 npm install --save
 ```
