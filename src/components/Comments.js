@@ -3,6 +3,7 @@ import './css/Comment.css'
 import backend from '../api/backend'
 import Comment from './Comment.js'
 import { Modal, Button } from 'react-bootstrap'
+import {Redirect} from 'react-router-dom'
 
 export default class Comments extends Component {
 	state = {
@@ -12,11 +13,9 @@ export default class Comments extends Component {
 		comment_id: '',
 		timeStamp: '',
 		localComments: [],
+		submitComplete: false,
 	}
-	clickBttn = () => {
-		this.props.context.updatePosts('Hi')
-		console.log(this.props.context.posts)
-	}
+
 	async componentDidMount() {
 		const response = await backend.get('/getPostList', {})
 		const commResponse = await backend.get(
@@ -74,6 +73,10 @@ export default class Comments extends Component {
 		})
 		const { context } = this.props
 
+		if (this.state.submitComplete) {
+			return <Redirect push to='/' />
+		}
+
 		return (
 			<div className='comments'>
 				{/* <button onClick={this.clickBttn}>Click me</button> */}
@@ -107,7 +110,7 @@ export default class Comments extends Component {
 					</div>
 				))}
 
-				<Modal
+				<Modal backdrop="static"
 					show={this.state.showModal}
 					onHide={() => this.setState({ showModal: false })}>
 					<Modal.Header closeButton>
@@ -117,8 +120,8 @@ export default class Comments extends Component {
 					<Modal.Footer>
 						<Button
 							variant='primary'
-							onClick={() => {
-								this.setState({ submitComplete: true })
+							 onClick={() => {
+								this.setState({submitComplete: true})
 							}}>
 							Continue
 						</Button>

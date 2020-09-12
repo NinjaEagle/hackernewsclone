@@ -40,7 +40,7 @@ export default class App extends React.Component {
 										<Route
 											path='/Comments/:id'
 											exact
-											render={(props) => <Comments {...props} {...context} />}
+											component={(props) => <Comments {...props} {...context} />}
 										/>
 										<Route
 											path='/CreatePost'
