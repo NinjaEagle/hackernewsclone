@@ -19,6 +19,7 @@ export default class Timeline extends React.Component {
 
 	async componentDidMount() {
 		const response = await backend.get('/getPostList', {})
+		let tempPosts = response.data.posts
 		this.setState({ localPosts: response.data.posts.reverse() })
 	}
 	componentWillUnmount() {

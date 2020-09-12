@@ -83,7 +83,7 @@ class Comment extends Component {
 	}
 	handleUpvote = async (e) => {
 		e.preventDefault()
-		if (this.props.context.isSignedIn) {
+		if (this.props.context.isSignedIn === 'true') {
 			let localID = this.props.postID
 			let commentID = this.props.commentID
 
