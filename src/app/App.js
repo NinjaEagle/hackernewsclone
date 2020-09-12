@@ -7,6 +7,7 @@ import Login from '../components/Login'
 import SignUp from '../components/Signup'
 import Comments from '../components/Comments'
 import CreatePost from '../components/CreatePost'
+import EditComment from '../components/EditComment'
 import Signout from '../components/Signout'
 
 export default class App extends React.Component {
@@ -47,6 +48,9 @@ export default class App extends React.Component {
 											render={(props) => <CreatePost {...props} {...context} />}
 										/>
 										<Route
+											path='/EditComment/:id'
+											exact
+											render={(props) => <EditComment {...props} {...context} />}
 											path='/Signout'
 											exact
 											render={(props) => <Signout {...props} {...context} />}

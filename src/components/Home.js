@@ -7,14 +7,14 @@ export default class Home extends React.Component {
 	state = {}
 
 	render() {
-		const {context} = this.props
+		const { context } = this.props
 		return (
 			<div className='blank'>
 				<Container>
 					<Row>
 						<Col>
 							<div className='posts-list' style={{ paddingTop: '20px' }}>
-								<Timeline context = {context} />
+								<Timeline context={context} />
 							</div>
 						</Col>
 					</Row>

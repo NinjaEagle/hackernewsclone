@@ -3,6 +3,7 @@ import { Button, Card } from 'react-bootstrap'
 import './css/Timeline.scss'
 import { Link } from 'react-router-dom'
 import { TriangleFill } from 'react-bootstrap-icons'
+import backend from '../api/backend'
 
 /*
         // -- PROPS THAT SHOULD BE PASSED TO POST	--//
@@ -20,6 +21,7 @@ export default class Post extends Component {
 	state = {
 		userPosted: false,
 		showModal: false,
+		postNumber: 0,
 	}
 
 	handleUpvote = async (e) => {
@@ -28,6 +30,15 @@ export default class Post extends Component {
 			console.log("Clicked upvote for:");
 			console.log(this.props.postID);
 		}
+	}
+	async componentDidMount() {
+		const response = await backend.get(
+			`/getCommentList/post/${this.props.postID}`,
+			{}
+		)
+
+		console.log(response)
+		this.setState({ postNumber: response.data.comments.length })
 	}
 
 	userPost() {
@@ -70,9 +81,8 @@ export default class Post extends Component {
 						{this.props.upvotes} points by {this.props.user} posted on{' '}
 						{this.props.timeStamp} PST |{' '}
 						<Link to={'/Comments/' + this.props.postID} post={this.props.postID}>
-							{this.props.comments} comments{' '}
+							{this.state.postNumber} comments{' '}
 						</Link>
-						{}
 					</Card.Footer>
 				</Card>
 			</React.Fragment>
